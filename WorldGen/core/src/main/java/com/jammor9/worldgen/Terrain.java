@@ -6,11 +6,13 @@ import java.util.List;
 public class Terrain {
 
     private Tile[][] terrainGrid;
-    private int gridSize;
+    private final int WIDTH;
+    private final int HEIGHT;
 
-    public Terrain(int gridSize) {
-        this.gridSize = gridSize;
-        this.terrainGrid = new Tile[gridSize][gridSize];
+    public Terrain(int width, int height) {
+        this.WIDTH = width;
+        this.HEIGHT = height;
+        this.terrainGrid = new Tile[height][width];
     }
 
     public int size() {
@@ -19,15 +21,14 @@ public class Terrain {
 
     //Returns a tile if it is within the bounds of the array
     public Tile getTile(int x, int y) {
-        if (x < 0 || y < 0 || x >= gridSize || y >= gridSize) return null;
+        if (!isInBounds(x, y)) return null;
         return terrainGrid[y][x];
     }
 
     public void setTile(Tile tile, int x, int y) {
-        if (x < 0 || y < 0 || x > gridSize || y > gridSize) return;
+        if (!isInBounds(x, y)) return;
         terrainGrid[y][x] = tile;
     }
-
 
     //Returns all 8 neighbours of a particular grid space
     public List<Tile> getNeighbours(int x, int y) {
@@ -58,5 +59,17 @@ public class Terrain {
         }
 
         return neighbours;
+    }
+
+    private boolean isInBounds(int x, int y) {
+        return !(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT);
+    }
+
+    public int getWidth() {
+        return this.WIDTH;
+    }
+
+    public int getHeight() {
+        return this.HEIGHT;
     }
 }

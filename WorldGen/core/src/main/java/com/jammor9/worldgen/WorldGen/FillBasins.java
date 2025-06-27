@@ -24,6 +24,7 @@ public class FillBasins {
         this.gridSize = terrain.size();
         this.edges = new HashSet<>();
         this.localMinima = new HashSet<>();
+        findEdges();
     }
 
     //Implements algorithm 3 from the above citation, solving the issue of flat terrain
@@ -33,8 +34,6 @@ public class FillBasins {
         LinkedList<Tile> pit = new LinkedList<>();
         Tile none = new Tile(-1, -1, -1);
         Tile pitTop = none;
-
-        findEdges();
 
         for (Tile edge : edges) {
             open.add(edge);

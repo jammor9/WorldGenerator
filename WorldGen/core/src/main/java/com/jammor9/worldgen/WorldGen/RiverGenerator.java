@@ -51,7 +51,7 @@ public class RiverGenerator {
 //            HashSet<Tile> river = new HashSet<>();
 //            Tile currentTile = tile;
 //            Tile nextTile;
-//            while (currentTile.getElevation() > 0.1) {
+//            while (currentTile.getFlowTile() != null) {
 //                nextTile = currentTile.getFlowTile();
 //                if (nextTile.getElevation() > currentTile.getElevation()) nextTile.setElevation(currentTile.getElevation());
 //                currentTile = nextTile;

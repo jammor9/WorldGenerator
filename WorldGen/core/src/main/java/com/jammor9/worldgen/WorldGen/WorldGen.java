@@ -29,84 +29,55 @@ enum TerrainType {
 
 public class WorldGen
 {
-
-    /*
-    Seed: Self Explanatory, provides the seed for the world
-    WIDTH & HEIGHT: Determine the size of the terrain map
-    FREQUENCY: Part of OpenSimplex Algorithm
-    OCTAVES: How many times OpenSimplex is repeated, higher octaves create more detailed maps
-    PERSISTENCE: Also known as gain, used to increase amplitude of frequency during each octave
-    LACUNARITY: Increases frequency during each octave
-    Scale: How zoomed in the OpenSimplex algorithm is. For a 1024x1024 map 300 seems to work well. Larger maps require a bigger scale.
-            Roughly speaking, if you double the size of the grid you will need to double the scale. Although it's best to play around.
-    Grid: Stores the elevation values for the terrain map
-     */
-    private static final long SEED = 1;
     private static long seed;
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 1024;
-    private static final double FREQUENCY = 1;
-    private static final int OCTAVES = 25; //How many times Simplex is repeated, higher octaves creates more detailed maps
-    private static final double PERSISTENCE = 0.5;
-    private static final double LACUNARITY = 2;
-    private static double scale = 150; //How zoomed in the OpenSimplex algorithm is. ~250-350 seems to provide best landforms
+    private static final double OCEAN_LEVEL = .1;
     private static Terrain terrain;
 
     public static void main(String[] args)
         throws IOException {
-        terrain = new Terrain(HEIGHT);
-        double maxNoiseHeight = Double.MIN_VALUE;
-        double minNoiseHeight = Double.MAX_VALUE;
+        terrain = new Terrain(WIDTH, HEIGHT);
+
         Random seedGen = new Random();
         seed = seedGen.nextInt();
         Random random = new Random(seed);
+        ElevationGenerator elevationGenerator = new ElevationGenerator(terrain.getWidth(), terrain.getHeight(), seed);
+        double[][] elevationGrid = elevationGenerator.generateElevation();
 
-        BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                double freq = FREQUENCY;
-                double amplitude = 1;
-                double noiseHeight = 0;
-
-                for (int i = 0; i < OCTAVES; i++) {
-                    double value = OpenSimplex2S.noise3_ImproveXY(seed, x / scale * freq, y / scale * freq, 0.0);
-
-                    noiseHeight += value * amplitude;
-                    amplitude *= PERSISTENCE;
-                    freq *= LACUNARITY;
-                }
-
-                if (noiseHeight > maxNoiseHeight) maxNoiseHeight = noiseHeight;
-                else if (noiseHeight < minNoiseHeight) minNoiseHeight = noiseHeight;
-
-                Tile newTile = new Tile(x, y, noiseHeight);
-                terrain.setTile(newTile, x, y);
+        //Initialises elevation data into the Terrain map
+        for (int y = 0; y < terrain.getHeight(); y++) {
+            for (int x = 0; x < terrain.getWidth(); x++) {
+                Tile t = new Tile(x, y, elevationGrid[y][x]);
+                terrain.setTile(t, x, y);
             }
         }
-
-        double[][] squareGrid = generateSquareGradient(WIDTH, HEIGHT);
-        TerrainType test = null;
 
         HashMap<TerrainType, Integer> terrainType = initTerrainMap();
-
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                terrain.getTile(x, y).setElevation(inverseLerp(minNoiseHeight, maxNoiseHeight, terrain.getTile(x, y).getElevation()) - squareGrid[y][x]);
-            }
-        }
-
+        BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         FillBasins fillBasins = new FillBasins(terrain);
-        terrain = fillBasins.calculateFlow();
 
         RiverGenerator riverGenerator = new RiverGenerator(terrain, random);
         terrain = fillBasins.filLBasins();
+
+
+
+        elevationGrid = elevationGenerator.hydraulicErosion(elevationGrid);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                terrain.getTile(x, y).setElevation(elevationGrid[y][x]);
+            }
+        }
+
+        fillBasins.calculateFlow();
+        fillBasins.filLBasins();
+
+
+        List<HashSet<Tile>> rivers = riverGenerator.getRivers();
         Terrain riverTerrain = riverGenerator.generateRivers();
 
 
-//        terrain = fillBasins.filLBasins();
-
-        List<HashSet<Tile>> rivers = riverGenerator.getRivers();
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x ++) {
@@ -132,36 +103,15 @@ public class WorldGen
         ImageIO.write(image, "png", new File("noise.png"));
 
         int rgb = terrainType.get(TerrainType.COAST);
-
         for (HashSet<Tile> river : rivers) {
+            System.out.println(river);
             for (Tile tile : river) {
+                System.out.println(tile);
                 image.setRGB(tile.x, tile.y, rgb);
             }
         }
 
         ImageIO.write(image, "png", new File("noise2.png"));
-
-
-    }
-
-    //Clamps range of the grid values between 0.0 and 1.0
-    public static double inverseLerp(double a, double b, double v) {
-        return (v-a)/(b-a);
-    }
-
-    //Generates a square gradient that when applied to the OpenSimplex algorithm creates island shapes
-    public static double[][] generateSquareGradient(int width, int height) {
-        double[][] squareGrid = new double[HEIGHT][WIDTH];
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                double xValue = Math.abs(x * 2f - width) / width;
-                double yValue = Math.abs(y * 2f - height) / height;
-                double value = Math.max(xValue, yValue);
-                squareGrid[y][x] = value;
-            }
-        }
-
-        return squareGrid;
     }
 
     public static HashMap<TerrainType, Integer> initTerrainMap() {
@@ -178,9 +128,5 @@ public class WorldGen
         terrainTypes.put(TerrainType.PEAKS, new Color(73, 74, 72).getRGB());
 
         return terrainTypes;
-    }
-
-    public void chartRivers() {
-
     }
 }
