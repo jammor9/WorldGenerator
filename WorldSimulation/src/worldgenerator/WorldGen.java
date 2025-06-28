@@ -1,10 +1,4 @@
-package com.jammor9.worldgen.WorldGen;
-
-/*
- * OpenSimplex2S Noise sample class.
- */
-
-import com.jammor9.worldgen.*;
+package worldgenerator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,8 +29,7 @@ public class WorldGen
     private static final double OCEAN_LEVEL = .1;
     private static Terrain terrain;
 
-    public static void main(String[] args)
-        throws IOException {
+    public void run() throws IOException {
         terrain = new Terrain(WIDTH, HEIGHT);
 
         Random seedGen = new Random();
@@ -45,10 +38,10 @@ public class WorldGen
         ElevationGenerator elevationGenerator = new ElevationGenerator(terrain.getWidth(), terrain.getHeight(), seed);
         double[][] elevationGrid = elevationGenerator.generateElevation();
 
-        //Initialises elevation data into the Terrain map
+        //Initialises elevation data into the worldgenerator.Terrain map
         for (int y = 0; y < terrain.getHeight(); y++) {
             for (int x = 0; x < terrain.getWidth(); x++) {
-                Tile t = new Tile(x, y, elevationGrid[y][x]);
+                Node t = new Node(x, y, elevationGrid[y][x]);
                 terrain.setTile(t, x, y);
             }
         }
@@ -74,7 +67,7 @@ public class WorldGen
         fillBasins.filLBasins();
 
 
-        List<HashSet<Tile>> rivers = riverGenerator.getRivers();
+        List<HashSet<Node>> rivers = riverGenerator.getRivers();
         Terrain riverTerrain = riverGenerator.generateRivers();
 
 
@@ -103,9 +96,9 @@ public class WorldGen
         ImageIO.write(image, "png", new File("noise.png"));
 
         int rgb = terrainType.get(TerrainType.COAST);
-        for (HashSet<Tile> river : rivers) {
+        for (HashSet<Node> river : rivers) {
             System.out.println(river);
-            for (Tile tile : river) {
+            for (Node tile : river) {
                 System.out.println(tile);
                 image.setRGB(tile.x, tile.y, rgb);
             }

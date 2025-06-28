@@ -1,13 +1,13 @@
-package com.jammor9.worldgen;
+package worldgenerator;
 
-public class Tile implements Comparable<Tile> {
+class Node implements Comparable<Node> {
 
     public int x;
     public int y;
     private double elevation; //Self explanatory, range between 0.0 and 1.0
-    private Tile flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
+    private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
 
-    public Tile(int x, int y, double elevation) {
+    public Node(int x, int y, double elevation) {
         this.x = x;
         this.y = y;
         this.elevation = elevation;
@@ -22,11 +22,11 @@ public class Tile implements Comparable<Tile> {
         this.elevation = elevation;
     }
 
-    public Tile getFlowTile() {
+    public Node getFlowTile() {
         return this.flowTile;
     }
 
-    public void setFlowTile(Tile flowTile) {
+    public void setFlowTile(Node flowTile) {
         this.flowTile = flowTile;
     }
 
@@ -37,7 +37,7 @@ public class Tile implements Comparable<Tile> {
     }
 
     @Override
-    public int compareTo(Tile o) {
+    public int compareTo(Node o) {
         return Double.compare(this.getElevation(), o.getElevation());
     }
 }

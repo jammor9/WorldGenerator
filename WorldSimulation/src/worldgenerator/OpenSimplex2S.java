@@ -1,4 +1,4 @@
-package com.jammor9.worldgen.WorldGen;
+package worldgenerator;
 /**
  * K.jpg's OpenSimplex 2, smooth variant ("SuperSimplex")
  *

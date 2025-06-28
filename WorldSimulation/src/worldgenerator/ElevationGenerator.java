@@ -1,7 +1,4 @@
-package com.jammor9.worldgen.WorldGen;
-
-import com.jammor9.worldgen.Terrain;
-import com.jammor9.worldgen.Tile;
+package worldgenerator;
 
 import java.util.Random;
 

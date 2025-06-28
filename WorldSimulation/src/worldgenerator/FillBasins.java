@@ -1,7 +1,4 @@
-package com.jammor9.worldgen.WorldGen;
-
-import com.jammor9.worldgen.Terrain;
-import com.jammor9.worldgen.Tile;
+package worldgenerator;
 
 import java.util.*;
 
@@ -14,14 +11,16 @@ Algorithm for Digital Elevation Models”. Computers & Geosciences. Vol 62, Jan 
 
 public class FillBasins {
 
-    Terrain terrain;
-    int gridSize;
-    HashSet<Tile> edges;
-    HashSet<Tile> localMinima;
+    private Terrain terrain;
+    private final int HEIGHT;
+    private final int WIDTH;
+    private HashSet<Node> edges;
+    private HashSet<Node> localMinima;
 
     public FillBasins(Terrain terrain) {
         this.terrain = terrain;
-        this.gridSize = terrain.size();
+        this.HEIGHT = terrain.getHeight();
+        this.WIDTH = terrain.getWidth();
         this.edges = new HashSet<>();
         this.localMinima = new HashSet<>();
         findEdges();
@@ -29,17 +28,17 @@ public class FillBasins {
 
     //Implements algorithm 3 from the above citation, solving the issue of flat terrain
     public Terrain filLBasins() {
-        PriorityQueue<Tile> open = new PriorityQueue<>();
-        boolean[][] closed = new boolean[gridSize][gridSize];
-        LinkedList<Tile> pit = new LinkedList<>();
-        Tile none = new Tile(-1, -1, -1);
-        Tile pitTop = none;
+        PriorityQueue<Node> open = new PriorityQueue<>();
+        boolean[][] closed = new boolean[HEIGHT][WIDTH];
+        LinkedList<Node> pit = new LinkedList<>();
+        Node none = new Node(-1, -1, -1);
+        Node pitTop = none;
 
-        for (Tile edge : edges) {
+        for (Node edge : edges) {
             open.add(edge);
             closed[edge.y][edge.x] = true;
         }
-        Tile c;
+        Node c;
 
         while (!open.isEmpty() || !pit.isEmpty()) {
             if (open.peek() == pit.peek()) {
@@ -55,9 +54,9 @@ public class FillBasins {
                 pitTop = none;
             }
 
-            List<Tile> neighbours = terrain.getFourNeighbours(c.x, c.y);
+            List<Node> neighbours = terrain.getFourNeighbours(c.x, c.y);
 
-            for (Tile n : neighbours) {
+            for (Node n : neighbours) {
                 if (closed[n.y][n.x]) continue;
                 closed[n.y][n.x] = true;
                 if (n.getElevation() == -1) pit.push(n);
@@ -81,10 +80,10 @@ public class FillBasins {
 
     //Implements algorithm 4 of the above citation, useful for natural rivers as algorithm 3 tends to create very straight rivers
     public Terrain calculateFlow() {
-        PriorityQueue<Tile> open = new PriorityQueue<>();
-        boolean[][] closed = new boolean[gridSize][gridSize];
+        PriorityQueue<Node> open = new PriorityQueue<>();
+        boolean[][] closed = new boolean[HEIGHT][WIDTH];
 
-        for (Tile c : edges) {
+        for (Node c : edges) {
             open.add(c);
             closed[c.y][c.x] = true;
 
@@ -92,11 +91,11 @@ public class FillBasins {
         }
 
         while(!open.isEmpty()) {
-            Tile c = open.poll();
+            Node c = open.poll();
 
-            List<Tile> neighbours = terrain.getFourNeighbours(c.x, c.y);
+            List<Node> neighbours = terrain.getFourNeighbours(c.x, c.y);
 
-            for (Tile n : neighbours) {
+            for (Node n : neighbours) {
                 if (closed[n.y][n.x]) continue;
                 closed[n.y][n.x] = true;
                 if (n.getElevation() == -1) n.setFlowTile(null);
@@ -110,9 +109,9 @@ public class FillBasins {
 
     //Finds all edges of the map, helper method
     public void findEdges() {
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
-                if (y == 0 || y == gridSize - 1 || x == 0 || x == gridSize -1 ) {
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                if (y == 0 || y == HEIGHT - 1 || x == 0 || x == WIDTH -1 ) {
                     edges.add(terrain.getTile(x, y));
                 }
             }

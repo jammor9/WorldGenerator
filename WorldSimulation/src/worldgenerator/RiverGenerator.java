@@ -1,25 +1,25 @@
-package com.jammor9.worldgen.WorldGen;
-
-import com.jammor9.worldgen.Terrain;
-import com.jammor9.worldgen.Tile;
+package worldgenerator;
 
 import java.util.*;
 
 public class RiverGenerator {
 
     private Terrain terrain;
-    private int gridSize;
-    private List<Tile> localMaxima; //Used to determine river start locations
-    private List<HashSet<Tile>> rivers;
-    private HashSet<Tile> visitedTiles;
-    private HashSet<Tile> riverStarts;
+    private final int HEIGHT;
+    private final int WIDTH;
+
+    private List<Node> localMaxima; //Used to determine river start locations
+    private List<HashSet<Node>> rivers;
+    private HashSet<Node> visitedTiles;
+    private HashSet<Node> riverStarts;
     private Random random; //Intake the world seed to maintain consistency
 
     private static final int RIVER_MAXIMA_RATIO = 10; //Determines what % of local maxima should be used as river points
 
     public RiverGenerator(Terrain terrain, Random random) {
         this.terrain = terrain;
-        this.gridSize = terrain.size();
+        this.HEIGHT = terrain.getHeight();
+        this.WIDTH = terrain.getWidth();
         this.random = random;
         this.localMaxima = new ArrayList<>();
         this.visitedTiles = new HashSet<>();
@@ -42,15 +42,15 @@ public class RiverGenerator {
         int riverCount = localMaxima.size() / RIVER_MAXIMA_RATIO;
 
         while (riverStarts.size() < riverCount) {
-            Tile start = localMaxima.get(random.nextInt(localMaxima.size()));
+            Node start = localMaxima.get(random.nextInt(localMaxima.size()));
             riverStarts.add(start);
         }
 
 //        //First carve all maxima "false rivers" to give the terrain a more natural look
-//        for (Tile tile : localMaxima) {
-//            HashSet<Tile> river = new HashSet<>();
-//            Tile currentTile = tile;
-//            Tile nextTile;
+//        for (Node tile : localMaxima) {
+//            HashSet<Node> river = new HashSet<>();
+//            Node currentTile = tile;
+//            Node nextTile;
 //            while (currentTile.getFlowTile() != null) {
 //                nextTile = currentTile.getFlowTile();
 //                if (nextTile.getElevation() > currentTile.getElevation()) nextTile.setElevation(currentTile.getElevation());
@@ -58,10 +58,10 @@ public class RiverGenerator {
 //            }
 //        }
 
-        for (Tile tile : riverStarts) {
-            HashSet<Tile> river = new HashSet<>();
-            Tile currentTile = tile;
-            Tile nextTile;
+        for (Node tile : riverStarts) {
+            HashSet<Node> river = new HashSet<>();
+            Node currentTile = tile;
+            Node nextTile;
             while (currentTile.getFlowTile() != null) {
                 river.add(currentTile);
                 nextTile = currentTile.getFlowTile();
@@ -80,14 +80,14 @@ public class RiverGenerator {
     //Find all points in the array that are a peak compared to their neighbours and are above water level
     private void findLocalMaxima() {
 
-        for (int y = 0; y < gridSize; y++) {
-            for (int x = 0; x < gridSize; x++) {
-                Tile tile = terrain.getTile(x,y);
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Node tile = terrain.getTile(x,y);
                 if (tile.getElevation() <= .3) continue;
 
-                List<Tile> neighbours = terrain.getNeighbours(x, y);
+                List<Node> neighbours = terrain.getNeighbours(x, y);
                 boolean highest = true;
-                for (Tile neighbour : neighbours) {
+                for (Node neighbour : neighbours) {
                     if (neighbour.getElevation() >= tile.getElevation()) {
                         highest = false;
                         break;
@@ -98,7 +98,7 @@ public class RiverGenerator {
         }
     }
 
-    public List<HashSet<Tile>> getRivers() {
+    public List<HashSet<Node>> getRivers() {
         return this.rivers;
     }
 }
