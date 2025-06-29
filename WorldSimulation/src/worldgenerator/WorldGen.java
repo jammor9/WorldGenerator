@@ -34,6 +34,7 @@ public class WorldGen
 
         Random seedGen = new Random();
         seed = seedGen.nextInt();
+        seed = 8888; //Debug Seed
         Random random = new Random(seed);
         ElevationGenerator elevationGenerator = new ElevationGenerator(terrain.getWidth(), terrain.getHeight(), seed);
         double[][] elevationGrid = elevationGenerator.generateElevation();
@@ -52,25 +53,24 @@ public class WorldGen
         FillBasins fillBasins = new FillBasins(terrain);
 
         RiverGenerator riverGenerator = new RiverGenerator(terrain, random);
-        terrain = fillBasins.filLBasins();
+//        fillBasins.filLBasins();
+        elevationGenerator.hydraulicErosion(terrain);
+        elevationGenerator.guassianBlur(terrain.getTerrainGrid());
 
 
-
-        elevationGrid = elevationGenerator.hydraulicErosion(elevationGrid);
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                terrain.getTile(x, y).setElevation(elevationGrid[y][x]);
-            }
-        }
-
-        fillBasins.calculateFlow();
         fillBasins.filLBasins();
-
+//        fillBasins.calculateFlow();
 
         List<HashSet<Node>> rivers = riverGenerator.getRivers();
         Terrain riverTerrain = riverGenerator.generateRivers();
 
-
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                int rgb = 0x010101 * (int)((terrain.getTile(x, y).getElevation()+ 1) * 127.5);
+                image.setRGB(x, y, rgb);
+            }
+        }
+        ImageIO.write(image, "png", new File("heightmap.png"));
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x ++) {
@@ -80,8 +80,8 @@ public class WorldGen
 
                 //Static Implementation
                 if (v <= .02) rgb = terrainType.get(TerrainType.OCEAN);
-                else if (v > .02 && v <= .1) rgb = terrainType.get(TerrainType.COAST);
-                else if (v > .1 && v <= .13) rgb = terrainType.get(TerrainType.BEACH);
+                else if (v > .02 && v <= .09) rgb = terrainType.get(TerrainType.COAST);
+                else if (v > .09 && v <= .13) rgb = terrainType.get(TerrainType.BEACH);
                 else if (v > .13 && v <= .19) rgb = terrainType.get(TerrainType.FLATLANDS);
                 else if (v > .1 && v <= .30) rgb = terrainType.get(TerrainType.LOWLANDS);
                 else if (v > .30 && v <= .45) rgb = terrainType.get(TerrainType.MIDLANDS);
@@ -92,19 +92,26 @@ public class WorldGen
                 image.setRGB(x, y, rgb);
             }
         }
-
         ImageIO.write(image, "png", new File("noise.png"));
 
         int rgb = terrainType.get(TerrainType.COAST);
         for (HashSet<Node> river : rivers) {
-            System.out.println(river);
             for (Node tile : river) {
-                System.out.println(tile);
                 image.setRGB(tile.x, tile.y, rgb);
             }
         }
-
         ImageIO.write(image, "png", new File("noise2.png"));
+
+        double minElev = Double.MAX_VALUE;
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for(int x = 0; x < WIDTH; x++) {
+                Node n = terrain.getTile(x, y);
+                if (n.getElevation() < minElev) minElev = n.getElevation();
+            }
+        }
+
+        System.out.println(minElev);
     }
 
     public static HashMap<TerrainType, Integer> initTerrainMap() {

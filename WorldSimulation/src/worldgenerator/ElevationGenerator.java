@@ -28,7 +28,8 @@ public class ElevationGenerator {
     private double[][] elevationGrid;
     private int width;
     private int height;
-    private static long seed;
+    private long seed;
+    private Node[][] terrainMap;
 
     private class Drop {
         double[] velocity;
@@ -51,22 +52,24 @@ public class ElevationGenerator {
             this.oldY = 0;
             this.x = x;
             this.y = y;
-            if (velocity == null) velocity = new double[2];
+            if (velocity == null) velocity = new double[3];
             this.velocity = velocity;
         }
 
-        public double[][] erode(double[][] elevationMap) {
-            return erode(elevationMap, DEFAULT_ITERATIONS);
+        public Terrain erode(Terrain terrain) {
+            return erode(terrain, DEFAULT_ITERATIONS);
         }
 
-        public double[][] erode(double[][] elevationMap, int maxIterations) {
+        public Terrain erode(Terrain terrain, int maxIterations) {
+            double origElev = terrain.getTile(oldX, oldY).getElevation();
+
             for (int i = 0; i < maxIterations; i++) {
                 double[] normal = interpolatedNormal(x, y);
-                if (normal[2] >= 0.1) break;
+                if (normal[2] >= 0.9) break;
 
                 double deposit = sediment * depositionRate * normal[2];
-                double erosion = erosionRate * (1 - normal[2] * Math.min(1, i * iterationScale));
-                elevationMap[oldY][oldX] += (deposit - erosion);
+                double erosion = erosionRate * (1 - normal[2]) * Math.min(1, i * iterationScale);
+                terrainMap[oldY][oldX].setElevation(terrainMap[oldY][oldX].getElevation() + (deposit - erosion));
 
                 sediment += (erosion-deposit);
 
@@ -80,7 +83,7 @@ public class ElevationGenerator {
                 y += velocity[1];
             }
 
-            return elevationMap;
+            return terrain;
         }
     }
 
@@ -89,7 +92,7 @@ public class ElevationGenerator {
         this.elevationGrid = new double[height][width];
         this.width = width;
         this.height = height;
-        this.DROPS = width * 100;
+        this.DROPS = width*height;
     }
 
     public double[][] generateElevation() {
@@ -146,25 +149,34 @@ public class ElevationGenerator {
         return (v-a)/(b-a);
     }
 
-    public double[][] hydraulicErosion(double[][] elevationGrid) {
+    public Terrain hydraulicErosion(Terrain terrain) {
         Random random = new Random(seed);
+        this.terrainMap = terrain.getTerrainGrid();
 
         for (int i = 0; i < DROPS; i++) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            Node t = terrain.getTile(x, y);
+
+            x = random.nextInt(width);
+            y = random.nextInt(height);
+            t = terrain.getTile(x, y);
+
             Drop drop = new Drop(random.nextInt(width), random.nextInt(height), null);
-            elevationGrid = drop.erode(elevationGrid);
+            terrain = drop.erode(terrain);
         }
-        return elevationGrid;
+        return terrain;
     }
 
     private double[] getNormal(int x, int y) {
         if (x == 0 || x >= width-1 || y == 0 || y >= height-1) return new double[]{0, 0, 1};
 
-        double R = elevationGrid[x+1][y];
-        double L = elevationGrid[x-1][y];
-        double T = elevationGrid[x][y+1];
-        double B = elevationGrid[x][y-1];
+        double R = terrainMap[x+1][y].getElevation();
+        double L = terrainMap[x-1][y].getElevation();
+        double T = terrainMap[x][y+1].getElevation();
+        double B = terrainMap[x][y-1].getElevation();
 
-        double dx = (R-L) * 0.5;
+        double dx = (R - L) * 0.5;
         double dy = (B - T) * 0.5;
         double dz = -1.0;
 
@@ -200,7 +212,29 @@ public class ElevationGenerator {
         return normal;
     }
 
-    private double[][] guassianBlur(double[][] elevationMap) {
-        return null;
+    public Node[][] guassianBlur(Node[][] elevationMap) {
+        double[][] kernel = new double[][] {
+                new double[] {1/16.0, 2/16.0, 1/16.0},
+                new double[] {2/16.0, 4/16.0, 2/16.0},
+                new double[] {1/16.0, 2/16.0, 1/16.0}
+        };
+
+        int k = 3/2;
+
+        for (int y = 0; y < height; y++) {
+            for(int x = 0; x < width; x++) {
+                double sum = 0.0;
+                for (int ky = -k; ky <= k; ky++) {
+                    for (int kx = -k; kx <= k; kx++) {
+                        int iy = Math.clamp(y+ky, 0, height-1);
+                        int ix = Math.clamp(x+kx, 0, width-1);
+                        sum +=  elevationMap[iy][ix].getElevation() * kernel[ky+k][kx+k];
+                    }
+                }
+                elevationMap[y][x].setElevation(sum);
+            }
+        }
+
+        return elevationMap;
     }
 }

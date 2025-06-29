@@ -68,4 +68,8 @@ class Terrain {
     public int getHeight() {
         return this.HEIGHT;
     }
+
+    public Node[][] getTerrainGrid() {
+        return this.terrainGrid;
+    }
 }
