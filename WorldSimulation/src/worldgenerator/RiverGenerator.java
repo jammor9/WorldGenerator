@@ -46,18 +46,7 @@ public class RiverGenerator {
             riverStarts.add(start);
         }
 
-//        //First carve all maxima "false rivers" to give the terrain a more natural look
-//        for (Node tile : localMaxima) {
-//            HashSet<Node> river = new HashSet<>();
-//            Node currentTile = tile;
-//            Node nextTile;
-//            while (currentTile.getFlowTile() != null) {
-//                nextTile = currentTile.getFlowTile();
-//                if (nextTile.getElevation() > currentTile.getElevation()) nextTile.setElevation(currentTile.getElevation());
-//                currentTile = nextTile;
-//            }
-//        }
-
+        //Then chart the downhill flow at each river tile
         for (Node tile : riverStarts) {
             HashSet<Node> river = new HashSet<>();
             Node currentTile = tile;
@@ -70,6 +59,7 @@ public class RiverGenerator {
                 if (visitedTiles.contains(currentTile)) break;
             }
 
+            //Add the river to the list of rivers, and add all tiles to the visitedTiles set to handle merging rivers
             rivers.add(river);
             visitedTiles.addAll(river);
         }
@@ -82,7 +72,7 @@ public class RiverGenerator {
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                Node tile = terrain.getTile(x,y);
+                Node tile = terrain.getNode(x,y);
                 if (tile.getElevation() <= .3) continue;
 
                 List<Node> neighbours = terrain.getNeighbours(x, y);

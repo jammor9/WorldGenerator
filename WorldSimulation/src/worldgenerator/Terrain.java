@@ -3,7 +3,7 @@ package worldgenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-class Terrain {
+public class Terrain {
 
     private Node[][] terrainGrid;
     private final int WIDTH;
@@ -16,12 +16,12 @@ class Terrain {
     }
 
     //Returns a tile if it is within the bounds of the array
-    public Node getTile(int x, int y) {
+    public Node getNode(int x, int y) {
         if (!isInBounds(x, y)) return null;
         return terrainGrid[y][x];
     }
 
-    public void setTile(Node tile, int x, int y) {
+    public void setNode(Node tile, int x, int y) {
         if (!isInBounds(x, y)) return;
         terrainGrid[y][x] = tile;
     }
@@ -33,11 +33,10 @@ class Terrain {
         for (int ix = x-1; ix<=x+1; ix++) {
             for (int iy = y-1; iy<=y+1; iy++) {
                 if (iy == y && ix == x) continue;
-                Node neighbour = getTile(ix, iy);
+                Node neighbour = getNode(ix, iy);
                 if (neighbour != null) neighbours.add(neighbour);
             }
         }
-
         return neighbours;
     }
 
@@ -45,18 +44,19 @@ class Terrain {
     public List<Node> getFourNeighbours(int x, int y) {
         List<Node> neighbours = new ArrayList<>();
         for (int ix = x-1; ix <=x+1; ix+=2) {
-            Node neighbour = getTile(ix, y);
+            Node neighbour = getNode(ix, y);
             if (neighbour != null) neighbours.add(neighbour);
         }
 
         for (int iy = y-1; iy <=y+1; iy+=2) {
-            Node neighbour = getTile(x, iy);
+            Node neighbour = getNode(x, iy);
             if (neighbour != null) neighbours.add(neighbour);
         }
 
         return neighbours;
     }
 
+    //Checks if a given set of coordinates are in the bounds of the grid
     private boolean isInBounds(int x, int y) {
         return !(x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT);
     }

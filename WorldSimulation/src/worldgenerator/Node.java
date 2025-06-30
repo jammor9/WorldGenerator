@@ -1,10 +1,11 @@
 package worldgenerator;
 
-class Node implements Comparable<Node> {
+public class Node implements Comparable<Node> {
 
     public int x;
     public int y;
     private double elevation; //Self explanatory, range between 0.0 and 1.0
+    private double precipitation;
     private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
 
     public Node(int x, int y, double elevation) {
@@ -28,6 +29,14 @@ class Node implements Comparable<Node> {
 
     public void setFlowTile(Node flowTile) {
         this.flowTile = flowTile;
+    }
+
+    public void setPrecipitation(double precipitation) {
+        this.precipitation = precipitation;
+    }
+
+    public double getPrecipitation() {
+        return this.precipitation;
     }
 
     @Override

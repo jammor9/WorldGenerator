@@ -27,7 +27,7 @@ public class FillBasins {
     }
 
     //Implements algorithm 3 from the above citation, solving the issue of flat terrain
-    public Terrain filLBasins() {
+    public Terrain fillBasins() {
         PriorityQueue<Node> open = new PriorityQueue<>();
         boolean[][] closed = new boolean[HEIGHT][WIDTH];
         LinkedList<Node> pit = new LinkedList<>();
@@ -112,7 +112,7 @@ public class FillBasins {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 if (y == 0 || y == HEIGHT - 1 || x == 0 || x == WIDTH -1 ) {
-                    edges.add(terrain.getTile(x, y));
+                    edges.add(terrain.getNode(x, y));
                 }
             }
         }
