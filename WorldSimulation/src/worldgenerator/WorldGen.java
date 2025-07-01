@@ -26,11 +26,12 @@ public class WorldGen
     private static long seed;
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 1024;
-    private static final double OCEAN_LEVEL = .1;
+    private static final double OCEAN_LEVEL = .09;
+    private static final double BASE_TEMPERATURE = 21;
     private static Terrain terrain;
 
     public void run() throws IOException {
-        terrain = new Terrain(WIDTH, HEIGHT);
+        terrain = new Terrain(WIDTH, HEIGHT, OCEAN_LEVEL);
 
         Random seedGen = new Random();
         seed = seedGen.nextInt();
@@ -42,7 +43,7 @@ public class WorldGen
         //Initialises elevation data into the worldgenerator.Terrain map
         for (int y = 0; y < terrain.getHeight(); y++) {
             for (int x = 0; x < terrain.getWidth(); x++) {
-                Node t = new Node(x, y, elevationGrid[y][x]);
+                Node t = new Node(x, y, elevationGrid[y][x], BASE_TEMPERATURE);
                 terrain.setNode(t, x, y);
             }
         }
@@ -53,7 +54,7 @@ public class WorldGen
         FillBasins fillBasins = new FillBasins(terrain);
         RiverGenerator riverGenerator = new RiverGenerator(terrain, random);
         Erosion erosion = new Erosion(terrain, random, 100_000);
-        RainfallGenerator rainfallGenerator = new RainfallGenerator(terrain);
+        AtmosphereGenerator atmosphereGenerator = new AtmosphereGenerator(terrain);
 
         /*
         Terrain Generation Process
@@ -70,7 +71,8 @@ public class WorldGen
         fillBasins.calculateFlow();
         List<HashSet<Node>> rivers = riverGenerator.getRivers();
         riverGenerator.generateRivers();
-        rainfallGenerator.calculatePrecipitation();
+        atmosphereGenerator.calculatePrecipitation();
+        atmosphereGenerator.calculateTemperature();
 
 
         for (int y = 0; y < HEIGHT; y++) {
@@ -81,19 +83,13 @@ public class WorldGen
         }
         ImageIO.write(image, "png", new File("heightmap.png"));
 
-        double maxPrecip = Double.MIN_VALUE;
-        double minPrecip = Double.MAX_VALUE;
-        double avgPrecip = 0;
-
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 double precip = terrain.getNode(x, y).getPrecipitation();
                 int rgb;
-                if (precip > maxPrecip) maxPrecip = precip;
-                else if (precip < minPrecip) minPrecip = precip;
-                if (elevationGrid[y][x] >= 0.09) avgPrecip += precip;
 
-                if (precip < 0.5) rgb = new Color(3, 140, 252).getRGB();
+                if (precip <= 0) rgb = new Color(255, 255, 255).getRGB();
+                else if (precip > 0 && precip < 0.5) rgb = new Color(3, 140, 252).getRGB();
                 else if (precip >= 0.5 && precip < 1) rgb = new Color(4, 120, 214).getRGB();
                 else if (precip >= 1 && precip < 1.5) rgb = new Color(0, 88, 161).getRGB();
                 else if (precip >= 1.5 && precip < 2) rgb = new Color(0, 59, 107).getRGB();
@@ -103,11 +99,24 @@ public class WorldGen
 
             }
         }
-
-        avgPrecip /= WIDTH * HEIGHT;
-
-        System.out.println(maxPrecip + " " + minPrecip + " " + avgPrecip);
         ImageIO.write(image, "png", new File("rainfall.png"));
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                double temp = terrain.getNode(x, y).getTemperature();
+                int rgb;
+
+                if (temp >= 21) rgb = new Color(183, 204, 47).getRGB();
+                else if (temp < 21 && temp >= 15) rgb = new Color(47, 204, 118).getRGB();
+                else if (temp < 15 && temp >= 10) rgb = new Color(47, 204, 167).getRGB();
+                else if (temp < 10 && temp >= 5) rgb = new Color(47, 201, 204).getRGB();
+                else rgb = new Color(47, 160, 204).getRGB();
+
+                image.setRGB(x, y, rgb);
+            }
+        }
+
+        ImageIO.write(image, "png", new File("temperature.png"));
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x ++) {

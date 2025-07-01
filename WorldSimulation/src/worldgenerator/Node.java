@@ -6,12 +6,14 @@ public class Node implements Comparable<Node> {
     public int y;
     private double elevation; //Self explanatory, range between 0.0 and 1.0
     private double precipitation;
+    private double temperature;
     private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
 
-    public Node(int x, int y, double elevation) {
+    public Node(int x, int y, double elevation, double temperature) {
         this.x = x;
         this.y = y;
         this.elevation = elevation;
+        this.temperature = temperature;
         this.flowTile = null;
     }
 
@@ -37,6 +39,14 @@ public class Node implements Comparable<Node> {
 
     public double getPrecipitation() {
         return this.precipitation;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public double getTemperature() {
+        return this.temperature;
     }
 
     @Override

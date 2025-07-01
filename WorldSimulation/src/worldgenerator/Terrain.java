@@ -5,25 +5,27 @@ import java.util.List;
 
 public class Terrain {
 
-    private Node[][] terrainGrid;
+    private Node[][] heightmap;
     private final int WIDTH;
     private final int HEIGHT;
+    private final double OCEAN_LEVEL;
 
-    public Terrain(int width, int height) {
+    public Terrain(int width, int height, double oceanLevel) {
         this.WIDTH = width;
         this.HEIGHT = height;
-        this.terrainGrid = new Node[height][width];
+        this.OCEAN_LEVEL = oceanLevel;
+        this.heightmap = new Node[height][width];
     }
 
     //Returns a tile if it is within the bounds of the array
     public Node getNode(int x, int y) {
         if (!isInBounds(x, y)) return null;
-        return terrainGrid[y][x];
+        return heightmap[y][x];
     }
 
     public void setNode(Node tile, int x, int y) {
         if (!isInBounds(x, y)) return;
-        terrainGrid[y][x] = tile;
+        heightmap[y][x] = tile;
     }
 
     //Returns all 8 neighbours of a particular grid space
@@ -69,7 +71,11 @@ public class Terrain {
         return this.HEIGHT;
     }
 
-    public Node[][] getTerrainGrid() {
-        return this.terrainGrid;
+    public double getOceanLevel() {
+        return this.OCEAN_LEVEL;
+    }
+
+    public Node[][] getHeightmap() {
+        return this.heightmap;
     }
 }

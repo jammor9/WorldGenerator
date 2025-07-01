@@ -77,7 +77,7 @@ public class Erosion {
     public Erosion(Terrain terrain, Random random, int drops) {
         this.random = random;
         this.terrain = terrain;
-        this.elevationMap = terrain.getTerrainGrid();
+        this.elevationMap = terrain.getHeightmap();
         this.width = terrain.getWidth();
         this.height = terrain.getHeight();
         this.drops = width * height;

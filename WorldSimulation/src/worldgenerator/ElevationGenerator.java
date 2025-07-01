@@ -19,8 +19,8 @@ public class ElevationGenerator {
     private static final int OCTAVES = 25; //How many times Simplex is repeated, higher octaves creates more detailed maps
     private static final double PERSISTENCE = 0.5;
     private static final double LACUNARITY = 2;
-    private static final int SCALE = 150; //How zoomed in the OpenSimplex algorithm is. ~250-350 seems to provide best landforms
-    private static final double EXPONENTIAL = 100;
+    private static final int SCALE = 150; //How zoomed in the OpenSimplex algorithm is.
+    private static final double EXPONENTIAL = 1;
 
     //Number of drops to simulate for hydralic erosion
     private double[][] elevationGrid;
@@ -55,7 +55,7 @@ public class ElevationGenerator {
                     freq *= LACUNARITY;
                 }
 
-//                noiseHeight = Math.pow(noiseHeight, EXPONENTIAL);
+                noiseHeight = Math.pow(noiseHeight, EXPONENTIAL);
 
                 if (noiseHeight > maxNoiseHeight) maxNoiseHeight = noiseHeight;
                 else if (noiseHeight < minNoiseHeight) minNoiseHeight = noiseHeight;
@@ -74,7 +74,6 @@ public class ElevationGenerator {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 elevationGrid[y][x] = (inverseLerp(minNoiseHeight, maxNoiseHeight, elevationGrid[y][x]) - squareGrid[y][x]);
-//                if (elevationGrid[y][x] < .55) elevationGrid[y][x] *= 0.8; // Flattens terrain below mountains to make them more pronounced
             }
         }
 
@@ -88,7 +87,7 @@ public class ElevationGenerator {
                 double xValue = Math.abs(x * 2f - width) / width;
                 double yValue = Math.abs(y * 2f - height) / height;
                 double value = Math.max(xValue, yValue);
-                squareGrid[y][x] = value;
+                squareGrid[y][x] = Math.pow(value, EXPONENTIAL);
             }
         }
 
@@ -98,6 +97,10 @@ public class ElevationGenerator {
     //Clamps range of the grid values between 0.0 and 1.0
     private static double inverseLerp(double a, double b, double v) {
         return (v-a)/(b-a);
+    }
+
+    private static double lerp(double a, double b, double t) {
+        return a + (b - a) * t;
     }
 
     private static double ridgeNoise(long seed, double freq, int x, int y) {

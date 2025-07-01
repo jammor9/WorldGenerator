@@ -31,7 +31,7 @@ public class FillBasins {
         PriorityQueue<Node> open = new PriorityQueue<>();
         boolean[][] closed = new boolean[HEIGHT][WIDTH];
         LinkedList<Node> pit = new LinkedList<>();
-        Node none = new Node(-1, -1, -1);
+        Node none = new Node(-1, -1, -1, 21);
         Node pitTop = none;
 
         for (Node edge : edges) {
