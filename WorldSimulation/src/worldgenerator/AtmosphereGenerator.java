@@ -3,15 +3,18 @@ package worldgenerator;
 public class AtmosphereGenerator {
 
     private static final int[] windDirection = new int[] {1, 0};     //Wind direction is west to east by default
+    private static final int poleDirection = 1; //Pole is north by default, -1 is south
     private static final double BASE_PRECIPITATION_LEVEL = 0.5;
     private static final double OROGRAPHIC_FACTOR = 1;
-    private static final double SHADOW_DECAY = 0.9;
-    private static final double TEMPERATURE_STEP = 0.035;
+    private static final double SHADOW_DECAY = 0.8;
+    private static final double TEMPERATURE_STEP = 0.04;
 
     private Terrain terrain;
+    private double poleStrength;
 
     public AtmosphereGenerator(Terrain terrain) {
         this.terrain = terrain;
+        this.poleStrength = terrain.getHeight() / 12_800.0;
     }
 
     //Modified this method from ChatGPT code
@@ -63,17 +66,24 @@ public class AtmosphereGenerator {
     }
 
     //Lowers the temperature by the current elevation divided by the temperature step
-    //Currently only dependant on elevation, will add a pole later for increased variance in temperature to allow for more biomes
+    //Currently only dependent on elevation, will add a pole later for increased variance in temperature to allow for more biomes
     public void calculateTemperature() {
         Node[][] heightmap = terrain.getHeightmap();
 
         for (int y = 0; y < terrain.getHeight(); y++) {
             for (int x = 0; x < terrain.getWidth(); x++) {
-                if(heightmap[y][x].getElevation() < terrain.getOceanLevel()) heightmap[y][x].setTemperature(-500);
-
                 double temp = heightmap[y][x].getTemperature();
-                double change = heightmap[y][x].getElevation()/TEMPERATURE_STEP;
-                heightmap[y][x].setTemperature(temp - change);
+                double elevChange = heightmap[y][x].getElevation()/TEMPERATURE_STEP;
+                temp -= elevChange; //Calculate for elevation
+
+                //Equation for distance from pole
+                //(Height/2 - Distance from pole) * poleStrength
+                double poleChange = (terrain.getHeight() / 2.0 - y) * poleStrength;
+
+                if (poleDirection == 1) temp -= poleChange;
+                else temp += poleChange;
+
+                heightmap[y][x].setTemperature(temp);
             }
         }
     }

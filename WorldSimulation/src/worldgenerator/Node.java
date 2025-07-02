@@ -8,6 +8,7 @@ public class Node implements Comparable<Node> {
     private double precipitation;
     private double temperature;
     private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
+    private Biome biome;
 
     public Node(int x, int y, double elevation, double temperature) {
         this.x = x;
@@ -47,6 +48,14 @@ public class Node implements Comparable<Node> {
 
     public double getTemperature() {
         return this.temperature;
+    }
+
+    public void setBiome(Biome biome) {
+        this.biome = biome;
+    }
+
+    public Biome getBiome() {
+        return this.biome;
     }
 
     @Override

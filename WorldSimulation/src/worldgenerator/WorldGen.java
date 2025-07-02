@@ -55,6 +55,7 @@ public class WorldGen
         RiverGenerator riverGenerator = new RiverGenerator(terrain, random);
         Erosion erosion = new Erosion(terrain, random, 100_000);
         AtmosphereGenerator atmosphereGenerator = new AtmosphereGenerator(terrain);
+        BiomeGenerator biomeGenerator = new BiomeGenerator(terrain);
 
         /*
         Terrain Generation Process
@@ -73,7 +74,7 @@ public class WorldGen
         riverGenerator.generateRivers();
         atmosphereGenerator.calculatePrecipitation();
         atmosphereGenerator.calculateTemperature();
-
+        biomeGenerator.generateBiomes();
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -106,17 +107,52 @@ public class WorldGen
                 double temp = terrain.getNode(x, y).getTemperature();
                 int rgb;
 
-                if (temp >= 21) rgb = new Color(183, 204, 47).getRGB();
-                else if (temp < 21 && temp >= 15) rgb = new Color(47, 204, 118).getRGB();
+                if (terrain.getNode(x, y).getElevation() < OCEAN_LEVEL) {
+                    rgb = new Color(255, 255, 255).getRGB();
+                    continue;
+                }
+
+                if (temp >= 45) rgb = new Color(191, 25, 0).getRGB();
+                else if (temp < 45 && temp >= 40) rgb = new Color(191, 67, 0).getRGB();
+                else if (temp < 40 && temp >= 35) rgb = new Color(201, 103, 4).getRGB();
+                else if (temp < 35 && temp >= 30) rgb = new Color(214, 149, 9).getRGB();
+                else if (temp < 30 && temp >= 25) rgb = new Color(237, 171, 28).getRGB();
+                else if (temp < 25 && temp >= 20) rgb = new Color(183, 204, 47).getRGB();
+                else if (temp < 20 && temp >= 15) rgb = new Color(47, 204, 118).getRGB();
                 else if (temp < 15 && temp >= 10) rgb = new Color(47, 204, 167).getRGB();
                 else if (temp < 10 && temp >= 5) rgb = new Color(47, 201, 204).getRGB();
-                else rgb = new Color(47, 160, 204).getRGB();
+                else if (temp < 5 && temp >= 0) rgb = new Color(47, 160, 204).getRGB();
+                else if (temp < 0 && temp >= -5) rgb = new Color(47, 120, 204).getRGB();
+                else rgb = new Color(47, 57, 204).getRGB();
 
                 image.setRGB(x, y, rgb);
             }
         }
-
         ImageIO.write(image, "png", new File("temperature.png"));
+
+        for (int y= 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                int rgb = new Color(255, 255, 255).getRGB();
+
+                Biome biome = terrain.getNode(x, y).getBiome();
+                switch(biome) {
+                    case Biome.HOT_DESERT -> rgb = new Color(217, 7, 7).getRGB();
+                    case Biome.HUMID_CONTINENTAL -> rgb = new Color(34, 159, 227).getRGB();
+                    case Biome.TUNDRA -> rgb = new Color(117, 117, 117).getRGB();
+                    case Biome.SUBARCTIC_CONTINENTAL -> rgb = new Color(17, 103, 150).getRGB();
+                    case Biome.COLD_DESERT -> rgb = new Color(214, 135, 171).getRGB();
+                    case Biome.TEMPERATE_FOREST -> rgb = new Color(14, 92, 8).getRGB();
+                    case Biome.BOREAL_FOREST -> rgb = new Color(8, 92, 63).getRGB();
+                    case Biome.SAVANNAH -> rgb = new Color(79, 144, 224).getRGB();
+                    case Biome.TROPICAL -> rgb = new Color(32, 45, 186).getRGB();
+                    case Biome.COLD_STEPPE -> rgb = new Color(227, 179, 91).getRGB();
+                    case Biome.HOT_STEPPE -> rgb = new Color(217, 121, 26).getRGB();
+                }
+
+                image.setRGB(x, y, rgb);
+            }
+        }
+        ImageIO.write(image, "png", new File("biomes.png"));
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x ++) {
