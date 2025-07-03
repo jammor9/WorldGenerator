@@ -1,8 +1,8 @@
 package worldgenerator;
 
-import java.util.Random;
-
 //Modified from Sebastian Lague's Procedural Landmass tutorials for Unity. Go check out his YouTube channel, was really useful for this.
+
+import java.math.BigDecimal;
 
 public class ElevationGenerator {
     /*
@@ -20,19 +20,20 @@ public class ElevationGenerator {
     private static final double PERSISTENCE = 0.5;
     private static final double LACUNARITY = 2;
     private static final int SCALE = 150; //How zoomed in the OpenSimplex algorithm is.
-    private static final double EXPONENTIAL = 1;
 
     //Number of drops to simulate for hydralic erosion
     private double[][] elevationGrid;
     private int width;
     private int height;
     private long seed;
+    private final double EXPONENTIAL;
 
-    public ElevationGenerator(int width, int height, long seed) {
+    public ElevationGenerator(int width, int height, long seed, double exp) {
         this.seed = seed;
         this.elevationGrid = new double[height][width];
         this.width = width;
         this.height = height;
+        this.EXPONENTIAL = exp;
     }
 
     //Uses OpenSimplex algorithm to randomly generate a heightmap
@@ -55,25 +56,20 @@ public class ElevationGenerator {
                     freq *= LACUNARITY;
                 }
 
-                noiseHeight = Math.pow(noiseHeight, EXPONENTIAL);
-
                 if (noiseHeight > maxNoiseHeight) maxNoiseHeight = noiseHeight;
                 else if (noiseHeight < minNoiseHeight) minNoiseHeight = noiseHeight;
-
-//                if (noiseHeight < .45 && noiseHeight >= .1) {
-//                    noiseHeight *= 0.5;
-//                    if (noiseHeight < .1) noiseHeight = .1;
-//                }
 
                 elevationGrid[y][x] = noiseHeight;
             }
         }
 
-        double[][] squareGrid = generateSquareGradient();
+        double[][] falloff = generateCircleGradient();
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                elevationGrid[y][x] = (inverseLerp(minNoiseHeight, maxNoiseHeight, elevationGrid[y][x]) - squareGrid[y][x]);
+                elevationGrid[y][x] = Math.clamp(inverseLerp(minNoiseHeight, maxNoiseHeight, elevationGrid[y][x]) - falloff[y][x], 0.0, 1.0);
+                elevationGrid[y][x] = Math.pow(elevationGrid[y][x], EXPONENTIAL);
+
             }
         }
 
@@ -87,11 +83,31 @@ public class ElevationGenerator {
                 double xValue = Math.abs(x * 2f - width) / width;
                 double yValue = Math.abs(y * 2f - height) / height;
                 double value = Math.max(xValue, yValue);
-                squareGrid[y][x] = Math.pow(value, EXPONENTIAL);
+                squareGrid[y][x] = value;
             }
         }
 
         return squareGrid;
+    }
+
+    private double[][] generateCircleGradient() {
+        int centreX = width/2-1;
+        int centreY = height/2-1;
+
+        double[][] circleGrid = new double[height][width];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                double distanceX = Math.pow(centreX-x, 2);
+                double distanceY = Math.pow(centreY-y, 2);
+
+                double distanceToCenter = Math.sqrt(distanceX + distanceY);
+
+                distanceToCenter /= height*0.6;
+                circleGrid[y][x] = distanceToCenter;
+            }
+        }
+
+        return circleGrid;
     }
 
     //Clamps range of the grid values between 0.0 and 1.0

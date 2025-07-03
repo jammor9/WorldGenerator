@@ -13,4 +13,5 @@ public enum Biome {
     TUNDRA,
     COLD_STEPPE,
     HOT_STEPPE,
+    ICE,
 }

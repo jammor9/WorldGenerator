@@ -4,10 +4,10 @@ public class AtmosphereGenerator {
 
     private static final int[] windDirection = new int[] {1, 0};     //Wind direction is west to east by default
     private static final int poleDirection = 1; //Pole is north by default, -1 is south
-    private static final double BASE_PRECIPITATION_LEVEL = 0.5;
-    private static final double OROGRAPHIC_FACTOR = 1;
-    private static final double SHADOW_DECAY = 0.8;
-    private static final double TEMPERATURE_STEP = 0.04;
+    private static final double BASE_PRECIPITATION_LEVEL = WorldGen.getExponential(); //Default precipitation
+    private static final double OROGRAPHIC_FACTOR = 1; //Determines how much precipitation increases with increasing altitude
+    private static final double SHADOW_DECAY = 0.8; //Determines how much rain shadows influence precipitation decrease. Lower values = faster decay
+    private static final double TEMPERATURE_STEP = 0.04 / WorldGen.getExponential(); //Determines temperature decrease with altitude, lower value leads to higher temp drops
 
     private Terrain terrain;
     private double poleStrength;
@@ -34,7 +34,7 @@ public class AtmosphereGenerator {
                 int upwindY = y - windDirection[1];
 
                 if (upwindX < 0 || upwindX >= terrain.getWidth() || upwindY < 0 || upwindY >= terrain.getHeight()) continue;
-                if (heightmap[y][x].getElevation() < 0.09) continue;
+                if (heightmap[y][x].getElevation() < Math.pow(0.09, WorldGen.getExponential())) continue;
 
                 double prevPrecip = heightmap[upwindY][upwindX].getPrecipitation();
 
@@ -66,7 +66,6 @@ public class AtmosphereGenerator {
     }
 
     //Lowers the temperature by the current elevation divided by the temperature step
-    //Currently only dependent on elevation, will add a pole later for increased variance in temperature to allow for more biomes
     public void calculateTemperature() {
         Node[][] heightmap = terrain.getHeightmap();
 

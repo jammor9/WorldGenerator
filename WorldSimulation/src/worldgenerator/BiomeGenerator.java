@@ -35,12 +35,13 @@ public class BiomeGenerator {
                             n.setBiome(Biome.TROPICAL);
                             n.setPrecipitation(precip * 1.5);
                         }
-                        n.setTemperature(temp-5);
+                        double change = (temp-35);
+                        n.setTemperature(temp - change);
                     }
                 }
                 else if (temp < 35 && temp >= 30) {
                     n.setBiome(Biome.HOT_DESERT);
-                    n.setTemperature(temp+10);
+                    n.setTemperature(temp+5);
                     n.setPrecipitation(precip*0.2);
                 }
                 else if (temp < 30 && temp >= 28) {
@@ -52,16 +53,19 @@ public class BiomeGenerator {
                 else if (temp < 28 && temp >= 10) {
                     n.setBiome(Biome.HUMID_CONTINENTAL);
                     if (precip > 1.2) n.setBiome(Biome.TEMPERATE_FOREST);
-                    else if (precip <= 0.2 && elev >= 0.3) n.setBiome(Biome.COLD_DESERT);
-                    else if (precip <= 0.3 && elev >= 0.25) n.setBiome(Biome.COLD_STEPPE);
+                    else if (precip <= 0.1 && elev >= Math.pow(0.3, WorldGen.getExponential())) n.setBiome(Biome.COLD_DESERT);
+                    else if (precip <= 0.2 && elev >= Math.pow(0.25, WorldGen.getExponential())) n.setBiome(Biome.COLD_STEPPE);
                 }
                 else if (temp < 10 && temp >= 0) {
                     n.setBiome(Biome.SUBARCTIC_CONTINENTAL);
                     if (precip > 1.2) n.setBiome(Biome.BOREAL_FOREST);
                 }
                 //Below 0 and the land becomes tundra
-                else {
+                else if (temp < 0 && temp >= -5){
                     n.setBiome(Biome.TUNDRA);
+                }
+                else {
+                    n.setBiome(Biome.ICE);
                 }
             }
         }

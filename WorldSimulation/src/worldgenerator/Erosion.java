@@ -67,7 +67,7 @@ public class Erosion {
                 x += (int) velocity[0];
                 y += (int) velocity[1];
 
-                if (elevationMap[y][x].getElevation() <= 0.09) break;
+                if (elevationMap[y][x].getElevation() <= Math.pow(0.09, WorldGen.getExponential())) break;
             }
 
             return terrain;

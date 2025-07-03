@@ -73,7 +73,7 @@ public class RiverGenerator {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Node tile = terrain.getNode(x,y);
-                if (tile.getElevation() <= .3) continue;
+                if (tile.getElevation() <= Math.pow(.3, WorldGen.getExponential())) continue;
 
                 List<Node> neighbours = terrain.getNeighbours(x, y);
                 boolean highest = true;

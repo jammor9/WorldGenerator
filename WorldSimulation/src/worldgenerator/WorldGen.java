@@ -26,7 +26,8 @@ public class WorldGen
     private static long seed;
     private static final int WIDTH = 1024;
     private static final int HEIGHT = 1024;
-    private static final double OCEAN_LEVEL = .09;
+    private static final double EXPONENTIAL = 2; //Higher exponential makes mountains more pronounced but flattens out elevation map
+    private static final double OCEAN_LEVEL = Math.pow(0.09, EXPONENTIAL);
     private static final double BASE_TEMPERATURE = 21;
     private static Terrain terrain;
 
@@ -37,7 +38,7 @@ public class WorldGen
         seed = seedGen.nextInt();
 //        seed = 8888; //Debug Seed
         Random random = new Random(seed);
-        ElevationGenerator elevationGenerator = new ElevationGenerator(terrain.getWidth(), terrain.getHeight(), seed);
+        ElevationGenerator elevationGenerator = new ElevationGenerator(terrain.getWidth(), terrain.getHeight(), seed, EXPONENTIAL);
         double[][] elevationGrid = elevationGenerator.generateElevation();
 
         //Initialises elevation data into the worldgenerator.Terrain map
@@ -67,7 +68,7 @@ public class WorldGen
          */
         fillBasins.fillBasins();
         erosion.hydraulicErosion();
-        erosion.gaussianBlur();
+        for (int i = 0; i < (int) EXPONENTIAL; i++) erosion.gaussianBlur();
         fillBasins.fillBasins();
         fillBasins.calculateFlow();
         List<HashSet<Node>> rivers = riverGenerator.getRivers();
@@ -147,6 +148,7 @@ public class WorldGen
                     case Biome.TROPICAL -> rgb = new Color(32, 45, 186).getRGB();
                     case Biome.COLD_STEPPE -> rgb = new Color(227, 179, 91).getRGB();
                     case Biome.HOT_STEPPE -> rgb = new Color(217, 121, 26).getRGB();
+                    case Biome.ICE -> rgb = new Color(200, 200, 200).getRGB();
                 }
 
                 image.setRGB(x, y, rgb);
@@ -161,14 +163,14 @@ public class WorldGen
                 double v = terrain.getNode(x, y).getElevation();
 
                 //Static Implementation
-                if (v <= .02) rgb = terrainType.get(TerrainType.OCEAN);
-                else if (v > .02 && v <= .09) rgb = terrainType.get(TerrainType.COAST);
-                else if (v > .09 && v <= .13) rgb = terrainType.get(TerrainType.BEACH);
-                else if (v > .13 && v <= .19) rgb = terrainType.get(TerrainType.FLATLANDS);
-                else if (v > .1 && v <= .30) rgb = terrainType.get(TerrainType.LOWLANDS);
-                else if (v > .30 && v <= .45) rgb = terrainType.get(TerrainType.MIDLANDS);
-                else if (v > .45 && v <= .55) rgb = terrainType.get(TerrainType.HIGHLANDS);
-                else if (v > .55&& v <= .75) rgb = terrainType.get(TerrainType.MOUNTAINS);
+                if (v <= Math.pow(.02, EXPONENTIAL)) rgb = terrainType.get(TerrainType.OCEAN);
+                else if (v > Math.pow(.02, EXPONENTIAL) && v <= OCEAN_LEVEL) rgb = terrainType.get(TerrainType.COAST);
+                else if (v >  OCEAN_LEVEL && v <= Math.pow(.13, EXPONENTIAL)) rgb = terrainType.get(TerrainType.BEACH);
+                else if (v > Math.pow(.13, EXPONENTIAL) && v <= Math.pow(.19, EXPONENTIAL)) rgb = terrainType.get(TerrainType.FLATLANDS);
+                else if (v > Math.pow(.1, EXPONENTIAL) && v <= Math.pow(.30, EXPONENTIAL)) rgb = terrainType.get(TerrainType.LOWLANDS);
+                else if (v > Math.pow(.30, EXPONENTIAL) && v <= Math.pow(.45, EXPONENTIAL)) rgb = terrainType.get(TerrainType.MIDLANDS);
+                else if (v > Math.pow(.45, EXPONENTIAL) && v <= Math.pow(.55, EXPONENTIAL)) rgb = terrainType.get(TerrainType.HIGHLANDS);
+                else if (v > Math.pow(.55, EXPONENTIAL) && v <= Math.pow(.75, EXPONENTIAL)) rgb = terrainType.get(TerrainType.MOUNTAINS);
                 else rgb = terrainType.get(TerrainType.PEAKS);
 
                 image.setRGB(x, y, rgb);
@@ -185,15 +187,17 @@ public class WorldGen
         ImageIO.write(image, "png", new File("noise2.png"));
 
         double minElev = Double.MAX_VALUE;
+        double maxElev = Double.MIN_VALUE;
 
         for (int y = 0; y < HEIGHT; y++) {
             for(int x = 0; x < WIDTH; x++) {
                 Node n = terrain.getNode(x, y);
                 if (n.getElevation() < minElev) minElev = n.getElevation();
+                if (n.getElevation() > maxElev) maxElev = n.getElevation();
             }
         }
 
-        System.out.println(minElev);
+        System.out.println(maxElev);
     }
 
     public static HashMap<TerrainType, Integer> initTerrainMap() {
@@ -211,5 +215,9 @@ public class WorldGen
         terrainTypes.put(TerrainType.PEAKS, new Color(73, 74, 72).getRGB()); //1000-2000 ?
 
         return terrainTypes;
+    }
+
+    public static double getExponential() {
+        return EXPONENTIAL;
     }
 }
