@@ -71,11 +71,11 @@ public class WorldGen
         for (int i = 0; i < (int) EXPONENTIAL; i++) erosion.gaussianBlur();
         fillBasins.fillBasins();
         fillBasins.calculateFlow();
-        List<HashSet<Node>> rivers = riverGenerator.getRivers();
+        HashSet<Node> rivers = riverGenerator.getRivers();
         riverGenerator.generateRivers();
         atmosphereGenerator.calculatePrecipitation();
         atmosphereGenerator.calculateTemperature();
-        biomeGenerator.generateBiomes();
+        biomeGenerator.generateBiomesTwo();
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -91,11 +91,13 @@ public class WorldGen
                 int rgb;
 
                 if (precip <= 0) rgb = new Color(255, 255, 255).getRGB();
-                else if (precip > 0 && precip < 0.5) rgb = new Color(3, 140, 252).getRGB();
+                else if (precip > 0 && precip < 0.2) rgb = new Color(64, 169, 255).getRGB();
+                else if (precip >= 0.2 && precip < 0.5) rgb = new Color(3, 140, 252).getRGB();
                 else if (precip >= 0.5 && precip < 1) rgb = new Color(4, 120, 214).getRGB();
                 else if (precip >= 1 && precip < 1.5) rgb = new Color(0, 88, 161).getRGB();
                 else if (precip >= 1.5 && precip < 2) rgb = new Color(0, 59, 107).getRGB();
-                else rgb = new Color(0, 38, 69).getRGB();
+                else if (precip >= 2 && precip < 2.5) rgb = new Color(0, 38, 69).getRGB();
+                else rgb = new Color(0, 25, 46).getRGB();
 
                 image.setRGB(x, y, rgb);
 
@@ -144,11 +146,16 @@ public class WorldGen
                     case Biome.COLD_DESERT -> rgb = new Color(214, 135, 171).getRGB();
                     case Biome.TEMPERATE_FOREST -> rgb = new Color(14, 92, 8).getRGB();
                     case Biome.BOREAL_FOREST -> rgb = new Color(8, 92, 63).getRGB();
-                    case Biome.SAVANNAH -> rgb = new Color(79, 144, 224).getRGB();
-                    case Biome.TROPICAL -> rgb = new Color(32, 45, 186).getRGB();
+                    case Biome.SAVANNAH -> rgb = new Color(157, 207, 83).getRGB();
+                    case Biome.TROPICAL -> rgb = new Color(55, 82, 16).getRGB();
                     case Biome.COLD_STEPPE -> rgb = new Color(227, 179, 91).getRGB();
                     case Biome.HOT_STEPPE -> rgb = new Color(217, 121, 26).getRGB();
                     case Biome.ICE -> rgb = new Color(200, 200, 200).getRGB();
+                    case Biome.DESERT -> rgb = new Color(222, 205, 120).getRGB();
+                    case Biome.GRASSLAND -> rgb = new Color(110, 201, 85).getRGB();
+                    case Biome.SEASONAL_FOREST -> rgb = new Color(54, 102, 41).getRGB();
+                    case Biome.TEMPERATE_RAINFOREST -> rgb = new Color(20, 56, 10).getRGB();
+                    case Biome.WOODLAND -> rgb = new Color(32, 74, 21).getRGB();
                 }
 
                 image.setRGB(x, y, rgb);
@@ -178,26 +185,37 @@ public class WorldGen
         }
         ImageIO.write(image, "png", new File("noise.png"));
 
-        int rgb = terrainType.get(TerrainType.COAST);
-        for (HashSet<Node> river : rivers) {
-            for (Node tile : river) {
-                image.setRGB(tile.x, tile.y, rgb);
-            }
+        for (Node n : rivers) {
+            int rgb = new Color(0, 0, 0).getRGB();
+            if (n.getRiverSize() == 0) continue;
+            if (n.getRiverSize() >= 1) rgb = new Color(28, 135, 235).getRGB();
+            if (n.getRiverSize() >= 3) rgb = new Color(12, 94, 171).getRGB();
+            if (n.getRiverSize() >= 5) rgb = new Color(4, 72, 135).getRGB();
+            if (n.getRiverSize() >= 7) rgb = new Color(2, 58, 110).getRGB();
+            if (n.getRiverSize() >= 9) rgb = new Color(1, 43, 82).getRGB();
+            image.setRGB(n.x, n.y, rgb);
         }
-        ImageIO.write(image, "png", new File("noise2.png"));
+        ImageIO.write(image, "png", new File("river.png"));
 
         double minElev = Double.MAX_VALUE;
         double maxElev = Double.MIN_VALUE;
+        double minTemp = Double.MAX_VALUE;
+        double maxTemp = Double.MIN_VALUE;
 
         for (int y = 0; y < HEIGHT; y++) {
             for(int x = 0; x < WIDTH; x++) {
                 Node n = terrain.getNode(x, y);
                 if (n.getElevation() < minElev) minElev = n.getElevation();
                 if (n.getElevation() > maxElev) maxElev = n.getElevation();
+                if (n.getBiome() != Biome.OCEAN) {
+                    if (n.getTemperature() < minTemp) minTemp = n.getTemperature();
+                    if (n.getTemperature() > maxTemp) maxTemp = n.getTemperature();
+                }
             }
         }
 
         System.out.println(maxElev);
+        System.out.println("Temps:" + minTemp + " " + maxTemp);
     }
 
     public static HashMap<TerrainType, Integer> initTerrainMap() {

@@ -14,4 +14,9 @@ public enum Biome {
     COLD_STEPPE,
     HOT_STEPPE,
     ICE,
+    GRASSLAND,
+    SEASONAL_FOREST,
+    WOODLAND,
+    TEMPERATE_RAINFOREST,
+    DESERT,
 }

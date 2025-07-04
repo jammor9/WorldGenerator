@@ -9,6 +9,7 @@ public class Node implements Comparable<Node> {
     private double temperature;
     private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
     private Biome biome;
+    private int riverSize;
 
     public Node(int x, int y, double elevation, double temperature) {
         this.x = x;
@@ -16,6 +17,7 @@ public class Node implements Comparable<Node> {
         this.elevation = elevation;
         this.temperature = temperature;
         this.flowTile = null;
+        this.riverSize = 0;
     }
 
     public double getElevation() {
@@ -58,9 +60,16 @@ public class Node implements Comparable<Node> {
         return this.biome;
     }
 
+    public int getRiverSize() {
+        return this.riverSize;
+    }
+
+    public void setRiverSize(int riverSize) {
+        if (riverSize <= RiverGenerator.getMaxRiverSize()) this.riverSize = riverSize;
+    }
+
     @Override
     public String toString() {
-
         return "[" + x + ", "+ y + "]";
     }
 

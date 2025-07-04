@@ -69,7 +69,6 @@ public class ElevationGenerator {
             for (int x = 0; x < width; x++) {
                 elevationGrid[y][x] = Math.clamp(inverseLerp(minNoiseHeight, maxNoiseHeight, elevationGrid[y][x]) - falloff[y][x], 0.0, 1.0);
                 elevationGrid[y][x] = Math.pow(elevationGrid[y][x], EXPONENTIAL);
-
             }
         }
 

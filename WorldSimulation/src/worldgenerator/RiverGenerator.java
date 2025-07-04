@@ -9,12 +9,12 @@ public class RiverGenerator {
     private final int WIDTH;
 
     private List<Node> localMaxima; //Used to determine river start locations
-    private List<HashSet<Node>> rivers;
-    private HashSet<Node> visitedTiles;
+    private HashSet<Node> visitedNodes;
     private HashSet<Node> riverStarts;
     private Random random; //Intake the world seed to maintain consistency
 
     private static final int RIVER_MAXIMA_RATIO = 10; //Determines what % of local maxima should be used as river points
+    private static final int MAX_RIVER_SIZE = 10; //Maximum size of a river, increases with tributary connections
 
     public RiverGenerator(Terrain terrain, Random random) {
         this.terrain = terrain;
@@ -22,9 +22,8 @@ public class RiverGenerator {
         this.WIDTH = terrain.getWidth();
         this.random = random;
         this.localMaxima = new ArrayList<>();
-        this.visitedTiles = new HashSet<>();
+        this.visitedNodes = new HashSet<>();
         this.riverStarts = new HashSet<>();
-        this.rivers = new ArrayList<>();
         findLocalMaxima();
     }
 
@@ -47,21 +46,20 @@ public class RiverGenerator {
         }
 
         //Then chart the downhill flow at each river tile
-        for (Node tile : riverStarts) {
+        for (Node n : riverStarts) {
             HashSet<Node> river = new HashSet<>();
-            Node currentTile = tile;
-            Node nextTile;
-            while (currentTile.getFlowTile() != null) {
-                river.add(currentTile);
-                nextTile = currentTile.getFlowTile();
-                if (nextTile.getElevation() > currentTile.getElevation()) nextTile.setElevation(currentTile.getElevation());
-                currentTile = nextTile;
-                if (visitedTiles.contains(currentTile)) break;
+            Node current = n;
+            Node next;
+            while (current.getFlowTile() != null) {
+                river.add(current);
+                next = current.getFlowTile();
+                if (next.getElevation() > current.getElevation()) next.setElevation(current.getElevation());
+                current.setRiverSize(current.getRiverSize()+1);
+                current = next;
+                if (current.getElevation() <= terrain.getOceanLevel()) break;
             }
-
-            //Add the river to the list of rivers, and add all tiles to the visitedTiles set to handle merging rivers
-            rivers.add(river);
-            visitedTiles.addAll(river);
+            //Add the river to the list of rivers, and add all tiles to the visitedNodes set to handle merging rivers
+            visitedNodes.addAll(river);
         }
 
         return terrain;
@@ -88,7 +86,11 @@ public class RiverGenerator {
         }
     }
 
-    public List<HashSet<Node>> getRivers() {
-        return this.rivers;
+    public HashSet<Node> getRivers() {
+        return this.visitedNodes;
+    }
+
+    public static int getMaxRiverSize() {
+        return MAX_RIVER_SIZE;
     }
 }

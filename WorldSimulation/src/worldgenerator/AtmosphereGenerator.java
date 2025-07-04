@@ -5,19 +5,20 @@ public class AtmosphereGenerator {
     private static final int[] windDirection = new int[] {1, 0};     //Wind direction is west to east by default
     private static final int poleDirection = 1; //Pole is north by default, -1 is south
     private static final double BASE_PRECIPITATION_LEVEL = WorldGen.getExponential(); //Default precipitation
-    private static final double OROGRAPHIC_FACTOR = 1; //Determines how much precipitation increases with increasing altitude
-    private static final double SHADOW_DECAY = 0.8; //Determines how much rain shadows influence precipitation decrease. Lower values = faster decay
-    private static final double TEMPERATURE_STEP = 0.04 / WorldGen.getExponential(); //Determines temperature decrease with altitude, lower value leads to higher temp drops
+    private static final double OROGRAPHIC_FACTOR = 0.5; //Determines how much precipitation increases with increasing altitude
+    private static final double SHADOW_DECAY = 0.7; //Determines how much rain shadows influence precipitation decrease. Lower values = faster decay
+    private static final double TEMPERATURE_STEP = 0.03; //Determines temperature decrease with altitude, lower value leads to higher temp drops
+    private static final double FALLOFF_ELEVATION = 0.005; //Minimum elevation required for precipitation to change
 
     private Terrain terrain;
     private double poleStrength;
 
     public AtmosphereGenerator(Terrain terrain) {
         this.terrain = terrain;
-        this.poleStrength = terrain.getHeight() / 12_800.0;
+        this.poleStrength = terrain.getHeight() / 12_800.0 ;
     }
 
-    //Modified this method from ChatGPT code
+    //Heavily modified this method from ChatGPT code
     public void calculatePrecipitation() {
         Node[][] heightmap = terrain.getHeightmap();
 
@@ -34,9 +35,10 @@ public class AtmosphereGenerator {
                 int upwindY = y - windDirection[1];
 
                 if (upwindX < 0 || upwindX >= terrain.getWidth() || upwindY < 0 || upwindY >= terrain.getHeight()) continue;
-                if (heightmap[y][x].getElevation() < Math.pow(0.09, WorldGen.getExponential())) continue;
+                if (heightmap[y][x].getElevation() < terrain.getOceanLevel()) continue;
 
                 double prevPrecip = heightmap[upwindY][upwindX].getPrecipitation();
+                double prevElev = heightmap[upwindY][upwindX].getPrecipitation();
 
                 /*
                 Calculates height difference between current elevation and the upwind elevation.
@@ -44,24 +46,26 @@ public class AtmosphereGenerator {
                 Otherwise, reduce by the shadow decay
                  */
 
+                //If tile is an onshore wind coast, set precipitation to base precipitation
+                if (prevElev < terrain.getOceanLevel()) {
+                    heightmap[y][x].setPrecipitation(BASE_PRECIPITATION_LEVEL);
+                    continue;
+                }
+
                 //Current code seems to raise precipitation too quickly and lower too fast. Will need to look at tweaking values.
                 if (upwindX < terrain.getWidth() && upwindY < terrain.getHeight()) {
                     double heightDifference = heightmap[y][x].getElevation() - heightmap[upwindY][upwindX].getElevation();
 
-                    if (heightDifference > 0.01) heightmap[y][x].setPrecipitation(BASE_PRECIPITATION_LEVEL + OROGRAPHIC_FACTOR + heightDifference);
-                    else if (heightDifference <= 0.01 && heightDifference > 0 ) {
-
-                        if (prevPrecip == 0) heightmap[y][x].setPrecipitation(BASE_PRECIPITATION_LEVEL);
-                        else heightmap[y][x].setPrecipitation(prevPrecip);
+                    if (heightDifference > FALLOFF_ELEVATION) heightmap[y][x].setPrecipitation(BASE_PRECIPITATION_LEVEL + OROGRAPHIC_FACTOR + heightDifference);
+                    else if (heightDifference <= FALLOFF_ELEVATION && heightDifference > -FALLOFF_ELEVATION  && prevPrecip <= 0.5) {
+                        if (prevPrecip <= 0.1) heightmap[y][x].setPrecipitation(prevPrecip);
+                        else heightmap[y][x].setPrecipitation(prevPrecip * 0.9);
                     }
-                    else heightmap[y][x].setPrecipitation(prevPrecip * SHADOW_DECAY);
+                    else heightmap[y][x].setPrecipitation(prevPrecip * (SHADOW_DECAY-heightDifference));
                 }
-
-//                System.out.println(prevPrecip);
-
-
             }
         }
+        gaussianBlur();
         gaussianBlur();
     }
 
