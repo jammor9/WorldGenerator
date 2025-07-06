@@ -1,43 +1,34 @@
-package worldgenerator;
+package org.jammor9.worldsim;
 
-public class Node implements Comparable<Node> {
+import org.jammor9.worldsim.worldgenerator.Biome;
+
+public class WorldTile {
 
     public int x;
     public int y;
     private double elevation; //Self explanatory, range between 0.0 and 1.0
     private double precipitation;
     private double temperature;
-    private Node flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
+    private WorldTile flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
     private Biome biome;
     private int riverSize;
 
-    public Node(int x, int y, double elevation, double temperature) {
+    public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Biome biome, int riverSize) {
         this.x = x;
         this.y = y;
         this.elevation = elevation;
         this.temperature = temperature;
-        this.flowTile = null;
-        this.riverSize = 0;
+        this.precipitation = precipitation;
+        this.biome = biome;
+        this.riverSize = riverSize;
     }
 
     public double getElevation() {
         return this.elevation;
     }
 
-    public void setElevation(double elevation) {
-        this.elevation = elevation;
-    }
-
-    public Node getFlowTile() {
+    public WorldTile getFlowTile() {
         return this.flowTile;
-    }
-
-    public void setFlowTile(Node flowTile) {
-        this.flowTile = flowTile;
-    }
-
-    public void setPrecipitation(double precipitation) {
-        this.precipitation = precipitation;
     }
 
     public double getPrecipitation() {
@@ -64,8 +55,8 @@ public class Node implements Comparable<Node> {
         return this.riverSize;
     }
 
-    public void setRiverSize(int riverSize) {
-        if (riverSize <= RiverGenerator.getMaxRiverSize()) this.riverSize = riverSize;
+    public void setFlowTile(WorldTile flowTile) {
+        this.flowTile = flowTile;
     }
 
     @Override
@@ -73,8 +64,4 @@ public class Node implements Comparable<Node> {
         return "[" + x + ", "+ y + "]";
     }
 
-    @Override
-    public int compareTo(Node o) {
-        return Double.compare(this.getElevation(), o.getElevation());
-    }
 }

@@ -1,41 +1,40 @@
-package worldgenerator;
+package org.jammor9.worldsim;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Terrain {
-
-    private Node[][] heightmap;
+public class WorldMap {
+    private WorldTile[][] heightmap;
     private final int WIDTH;
     private final int HEIGHT;
     private final double OCEAN_LEVEL;
 
-    public Terrain(int width, int height, double oceanLevel) {
+    public WorldMap(int width, int height, double oceanLevel) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.OCEAN_LEVEL = oceanLevel;
-        this.heightmap = new Node[height][width];
+        this.heightmap = new WorldTile[height][width];
     }
 
     //Returns a tile if it is within the bounds of the array
-    public Node getNode(int x, int y) {
+    public WorldTile getTile(int x, int y) {
         if (!isInBounds(x, y)) return null;
         return heightmap[y][x];
     }
 
-    public void setNode(Node tile, int x, int y) {
+    public void setTile(WorldTile tile, int x, int y) {
         if (!isInBounds(x, y)) return;
         heightmap[y][x] = tile;
     }
 
     //Returns all 8 neighbours of a particular grid space
-    public List<Node> getNeighbours(int x, int y) {
-        List<Node> neighbours = new ArrayList<>();
+    public List<WorldTile> getNeighbours(int x, int y) {
+        List<WorldTile> neighbours = new ArrayList<>();
 
         for (int ix = x-1; ix<=x+1; ix++) {
             for (int iy = y-1; iy<=y+1; iy++) {
                 if (iy == y && ix == x) continue;
-                Node neighbour = getNode(ix, iy);
+                WorldTile neighbour = getTile(ix, iy);
                 if (neighbour != null) neighbours.add(neighbour);
             }
         }
@@ -43,15 +42,15 @@ public class Terrain {
     }
 
     //Returns 4 neighbours, more useful for river generation
-    public List<Node> getFourNeighbours(int x, int y) {
-        List<Node> neighbours = new ArrayList<>();
+    public List<WorldTile> getFourNeighbours(int x, int y) {
+        List<WorldTile> neighbours = new ArrayList<>();
         for (int ix = x-1; ix <=x+1; ix+=2) {
-            Node neighbour = getNode(ix, y);
+            WorldTile neighbour = getTile(ix, y);
             if (neighbour != null) neighbours.add(neighbour);
         }
 
         for (int iy = y-1; iy <=y+1; iy+=2) {
-            Node neighbour = getNode(x, iy);
+            WorldTile neighbour = getTile(x, iy);
             if (neighbour != null) neighbours.add(neighbour);
         }
 
@@ -75,7 +74,7 @@ public class Terrain {
         return this.OCEAN_LEVEL;
     }
 
-    public Node[][] getHeightmap() {
+    public WorldTile[][] getHeightmap() {
         return this.heightmap;
     }
 }
