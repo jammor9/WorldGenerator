@@ -15,7 +15,7 @@ public class AtmosphereGenerator {
 
     public AtmosphereGenerator(Terrain terrain) {
         this.terrain = terrain;
-        this.poleStrength = terrain.getHeight() / 12_800.0 ;
+        this.poleStrength = (terrain.getHeight() / 12_800.0) * (1024.0 / terrain.getHeight());
     }
 
     //Heavily modified this method from ChatGPT code

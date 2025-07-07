@@ -11,6 +11,7 @@ module org.jammor9.worldsim {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.desktop;
+    requires javafx.swing;
 
     opens org.jammor9.worldsim to javafx.fxml;
     exports org.jammor9.worldsim;

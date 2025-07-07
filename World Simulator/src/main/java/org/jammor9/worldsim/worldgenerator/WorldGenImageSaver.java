@@ -74,7 +74,7 @@ public class WorldGenImageSaver
         riverGenerator.generateRivers();
         atmosphereGenerator.calculatePrecipitation();
         atmosphereGenerator.calculateTemperature();
-        biomeGenerator.generateBiomesTwo();
+        biomeGenerator.generateBiomes();
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {

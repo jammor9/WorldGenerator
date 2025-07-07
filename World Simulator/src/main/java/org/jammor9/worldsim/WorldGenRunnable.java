@@ -8,15 +8,22 @@ import java.util.Random;
 public class WorldGenRunnable implements Runnable{
 
     private static long seed;
-    private static final int WIDTH = 1024;
-    private static final int HEIGHT = 1024;
+
     private static final double EXPONENTIAL = 2; //Higher exponential makes mountains more pronounced but flattens out elevation map
     private static final double OCEAN_LEVEL = Math.pow(0.09, EXPONENTIAL);
     private static final double BASE_TEMPERATURE = 21;
+
     private Terrain terrain;
     private WorldMap worldMap;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private boolean generated;
 
-    public WorldGenRunnable() {}
+    public WorldGenRunnable(int width, int height) {
+        this.WIDTH = width;
+        this.HEIGHT = height;
+        this.generated = false;
+    }
 
     @Override
     public void run() {
@@ -59,10 +66,12 @@ public class WorldGenRunnable implements Runnable{
         riverGenerator.generateRivers();
         atmosphereGenerator.calculatePrecipitation();
         atmosphereGenerator.calculateTemperature();
-        biomeGenerator.generateBiomesTwo();
+        biomeGenerator.generateBiomes();
         adaptTerrain();
+        this.generated = true;
     }
 
+    //Converts terrain and node objects from the package to their application WorldMap and WorldTile equivelants
     public void adaptTerrain() {
         this.worldMap = new WorldMap(WIDTH, HEIGHT, OCEAN_LEVEL);
         for (int y = 0; y < HEIGHT; y++) {
@@ -71,13 +80,14 @@ public class WorldGenRunnable implements Runnable{
                 double elev = n.getElevation();
                 double temp = n.getTemperature();
                 double precip = n.getPrecipitation();
-                Biome biome = n.getBiome();
+                Climate climate = Climate.valueOf(n.getBiome().toString());
                 int riverSize = n.getRiverSize();
-                WorldTile t = new WorldTile(x, y, elev, temp, precip, biome, riverSize);
+                WorldTile t = new WorldTile(x, y, elev, temp, precip, climate, riverSize);
                 worldMap.setTile(t, x, y);
             }
         }
 
+        //Flowtiles have to be done in a second loop as the tiles don't exist during generation
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Node n = terrain.getNode(x, y);
@@ -91,5 +101,21 @@ public class WorldGenRunnable implements Runnable{
 
     public WorldMap getWorldMap() {
         return this.worldMap;
+    }
+
+    public static double getExponential() {
+        return EXPONENTIAL;
+    }
+
+    public Boolean isGenerated() {
+        return this.generated;
+    }
+
+    public int getHeight() {
+        return this.HEIGHT;
+    }
+
+    public int getWidth() {
+        return this.WIDTH;
     }
 }

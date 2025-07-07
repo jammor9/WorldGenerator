@@ -4,31 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Interactor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Model.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/AtmosphereGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/Biome.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/BiomeGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/ElevationGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/Erosion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/FillBasins.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/Node.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/OpenSimplex2S.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/RiverGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/Terrain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../WorldSimulation/src/worldgenerator/WorldGen.java" beforeDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Added rest of files that I forgot to stage">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Climate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/AtmosphereGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/AtmosphereGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/BiomeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/BiomeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/WorldGenImageSaver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/WorldGenImageSaver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +27,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -64,6 +53,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -75,7 +67,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -124,6 +116,28 @@
       <option name="presentableId" value="Default" />
       <updated>1751730235528</updated>
     </task>
+    <task id="LOCAL-00001" summary="JavaFX implementation&#10;-Started to implement a GUI using JavaFX, experimenting with different techniques. &#10;-Made modifications to program to allow access of the world map outside of the worldgenerator package using an adaptor.">
+      <option name="closed" value="true" />
+      <created>1751817075192</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1751817075192</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added rest of files that I forgot to stage">
+      <option name="closed" value="true" />
+      <created>1751817130902</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1751817130902</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="JavaFX implementation&#10;-Started to implement a GUI using JavaFX, experimenting with different techniques. &#10;-Made modifications to program to allow access of the world map outside of the worldgenerator package using an adaptor." />
+    <MESSAGE value="Added rest of files that I forgot to stage" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added rest of files that I forgot to stage" />
   </component>
 </project>

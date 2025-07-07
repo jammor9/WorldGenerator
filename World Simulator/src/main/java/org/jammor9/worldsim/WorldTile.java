@@ -1,7 +1,5 @@
 package org.jammor9.worldsim;
 
-import org.jammor9.worldsim.worldgenerator.Biome;
-
 public class WorldTile {
 
     public int x;
@@ -10,16 +8,16 @@ public class WorldTile {
     private double precipitation;
     private double temperature;
     private WorldTile flowTile; //Used for modelling rivers, shows the tile that this tile will flow to
-    private Biome biome;
+    private Climate climate;
     private int riverSize;
 
-    public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Biome biome, int riverSize) {
+    public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Climate climate, int riverSize) {
         this.x = x;
         this.y = y;
         this.elevation = elevation;
         this.temperature = temperature;
         this.precipitation = precipitation;
-        this.biome = biome;
+        this.climate = climate;
         this.riverSize = riverSize;
     }
 
@@ -43,12 +41,12 @@ public class WorldTile {
         return this.temperature;
     }
 
-    public void setBiome(Biome biome) {
-        this.biome = biome;
+    public void setClimate(Climate climate) {
+        this.climate = climate;
     }
 
-    public Biome getBiome() {
-        return this.biome;
+    public Climate getClimate() {
+        return this.climate;
     }
 
     public int getRiverSize() {
