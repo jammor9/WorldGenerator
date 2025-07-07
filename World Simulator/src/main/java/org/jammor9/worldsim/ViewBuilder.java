@@ -38,6 +38,7 @@ public class ViewBuilder implements Builder<Region> {
     private final String TEMP_BUTTON = "TEMPERATURE";
     private final String CLIMATE_BUTTON = "CLIMATE";
     private final String NEW_WORLD_BUTTON = "NEW WORLD";
+    private final String SAVE_BUTTON = "SAVE";
 
     //Pane Settings
     private final int SCROLL_PANE_MAX_HEIGHT = 900;
@@ -83,8 +84,9 @@ public class ViewBuilder implements Builder<Region> {
     }
 
     private Node createBottom() {
-        Button b = new Button(NEW_WORLD_BUTTON);
-        b.setOnAction(new EventHandler<ActionEvent>() {
+        Button newWorld = new Button(NEW_WORLD_BUTTON);
+        Button save = new Button(SAVE_BUTTON);
+        newWorld.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 addLabel("NEW WORLD GENERATED");
@@ -97,7 +99,17 @@ public class ViewBuilder implements Builder<Region> {
                 gc.drawImage(image, 0, 0);
             }
         });
-        HBox start = new HBox(10, b);
+
+        save.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (worldMap == null) return;
+                SaveWorld saveWorld = new SaveWorld(worldMap);
+                saveWorld.saveWorld("TestSave");
+            }
+        });
+
+        HBox start = new HBox(10, newWorld, save);
         start.setAlignment(Pos.CENTER);
         return start;
     }

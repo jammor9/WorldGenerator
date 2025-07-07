@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WorldMap {
-    private WorldTile[][] heightmap;
     private final int WIDTH;
     private final int HEIGHT;
     private final double OCEAN_LEVEL;
+    private WorldTile[][] heightmap;
 
     public WorldMap(int width, int height, double oceanLevel) {
         this.WIDTH = width;

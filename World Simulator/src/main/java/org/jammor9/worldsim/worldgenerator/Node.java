@@ -11,6 +11,12 @@ public class Node implements Comparable<Node> {
     private Biome biome;
     private int riverSize;
 
+    //Decimal Truncation to save space
+    private final int ELEVATION_TRUNCATION = 10_000;
+    private final int TEMPERATURE_TRUNCATION = 100;
+    private final int PRECIPITATION_TRUNCATION = 1000;
+    private double MIN_ELEV = Math.pow(0.001, WorldGenImageSaver.getExponential());
+
     public Node(int x, int y, double elevation, double temperature) {
         this.x = x;
         this.y = y;
@@ -25,7 +31,9 @@ public class Node implements Comparable<Node> {
     }
 
     public void setElevation(double elevation) {
-        this.elevation = elevation;
+        if (elevation < MIN_ELEV) elevation = MIN_ELEV;
+        int temp = (int) (elevation * ELEVATION_TRUNCATION);
+        this.elevation = (double) temp / ELEVATION_TRUNCATION;
     }
 
     public Node getFlowTile() {
@@ -37,7 +45,8 @@ public class Node implements Comparable<Node> {
     }
 
     public void setPrecipitation(double precipitation) {
-        this.precipitation = precipitation;
+        int temp = (int) (precipitation * PRECIPITATION_TRUNCATION);
+        this.precipitation = (double) temp / PRECIPITATION_TRUNCATION;
     }
 
     public double getPrecipitation() {
@@ -45,7 +54,8 @@ public class Node implements Comparable<Node> {
     }
 
     public void setTemperature(double temperature) {
-        this.temperature = temperature;
+        int temp = (int) (temperature * TEMPERATURE_TRUNCATION);
+        this.temperature = (double) temp / TEMPERATURE_TRUNCATION;
     }
 
     public double getTemperature() {

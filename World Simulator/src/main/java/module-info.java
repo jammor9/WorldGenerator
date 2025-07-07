@@ -12,7 +12,9 @@ module org.jammor9.worldsim {
     requires com.almasb.fxgl.all;
     requires java.desktop;
     requires javafx.swing;
+    requires com.google.gson;
 
-    opens org.jammor9.worldsim to javafx.fxml;
+    opens org.jammor9.worldsim to com.google.gson;
+
     exports org.jammor9.worldsim;
 }

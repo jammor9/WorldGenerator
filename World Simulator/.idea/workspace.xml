@@ -4,19 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Added rest of files that I forgot to stage">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Climate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="New UI, bug fixes, performance improvements&#10;-Big part is the new UI, which can now generate worlds and visually display the different data via the interface. This will be later used to visually display the history simulation. &#10;-To improve performance, rather than directly painting to canvas the map is painted to a BufferedImage. This BufferedImage is then painted on to the canvas, which significantly speeds up the program. &#10;-Made improvements to the poleStrength so that it adjusts to different map sizes. &#10;-Create a climate enumerator as the application version of biome">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveWorld.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/AtmosphereGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/AtmosphereGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/BiomeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/BiomeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/WorldGenImageSaver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/WorldGenImageSaver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/ElevationGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/ElevationGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/worldgenerator/Node.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -68,10 +66,17 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "true",
+    "Repository.Attach.Sources": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "main",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -132,12 +137,21 @@
       <option name="project" value="LOCAL" />
       <updated>1751817130902</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="New UI, bug fixes, performance improvements&#10;-Big part is the new UI, which can now generate worlds and visually display the different data via the interface. This will be later used to visually display the history simulation. &#10;-To improve performance, rather than directly painting to canvas the map is painted to a BufferedImage. This BufferedImage is then painted on to the canvas, which significantly speeds up the program. &#10;-Made improvements to the poleStrength so that it adjusts to different map sizes. &#10;-Create a climate enumerator as the application version of biome">
+      <option name="closed" value="true" />
+      <created>1751914480920</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1751914480920</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="JavaFX implementation&#10;-Started to implement a GUI using JavaFX, experimenting with different techniques. &#10;-Made modifications to program to allow access of the world map outside of the worldgenerator package using an adaptor." />
     <MESSAGE value="Added rest of files that I forgot to stage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added rest of files that I forgot to stage" />
+    <MESSAGE value="New UI, bug fixes, performance improvements&#10;-Big part is the new UI, which can now generate worlds and visually display the different data via the interface. This will be later used to visually display the history simulation. &#10;-To improve performance, rather than directly painting to canvas the map is painted to a BufferedImage. This BufferedImage is then painted on to the canvas, which significantly speeds up the program. &#10;-Made improvements to the poleStrength so that it adjusts to different map sizes. &#10;-Create a climate enumerator as the application version of biome" />
+    <option name="LAST_COMMIT_MESSAGE" value="New UI, bug fixes, performance improvements&#10;-Big part is the new UI, which can now generate worlds and visually display the different data via the interface. This will be later used to visually display the history simulation. &#10;-To improve performance, rather than directly painting to canvas the map is painted to a BufferedImage. This BufferedImage is then painted on to the canvas, which significantly speeds up the program. &#10;-Made improvements to the poleStrength so that it adjusts to different map sizes. &#10;-Create a climate enumerator as the application version of biome" />
   </component>
 </project>

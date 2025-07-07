@@ -82,19 +82,11 @@ public class WorldGenRunnable implements Runnable{
                 double precip = n.getPrecipitation();
                 Climate climate = Climate.valueOf(n.getBiome().toString());
                 int riverSize = n.getRiverSize();
-                WorldTile t = new WorldTile(x, y, elev, temp, precip, climate, riverSize);
+                Node flowTile = n.getFlowTile();
+                double[] flowCoords = null;
+                if (flowTile != null) flowCoords = new double[] {flowTile.x, flowTile.y};
+                WorldTile t = new WorldTile(x, y, elev, temp, precip, climate, riverSize, flowCoords);
                 worldMap.setTile(t, x, y);
-            }
-        }
-
-        //Flowtiles have to be done in a second loop as the tiles don't exist during generation
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                Node n = terrain.getNode(x, y);
-                if (n.getFlowTile() == null) continue;
-                int fx = n.getFlowTile().x;
-                int fy = n.getFlowTile().y;
-                worldMap.getTile(x, y).setFlowTile(worldMap.getTile(fx, fy));
             }
         }
     }
