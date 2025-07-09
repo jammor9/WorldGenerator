@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        stage.setScene(new Scene(new Controller(worldGenRunnable).getView()));
+        stage.setScene(new Scene(new Controller(stage, worldGenRunnable).getView()));
         stage.setTitle(APP_NAME);
 
         stage.show();

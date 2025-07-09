@@ -14,22 +14,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Builder;
 
 import java.util.Objects;
 
 public class ViewBuilder implements Builder<Region> {
 
-    private final Model model;
     private final WorldGenRunnable worldGen;
+    private final SaveAndLoad saveAndLoad;
     private WorldMap worldMap;
     private Canvas canvas;
     private int width;
     private int height;
-    private VBox textBox;
-    private VBox buttonBox;
     private ListView<Label> listView;
-    private BorderPane window;
+    private Stage stage;
 
     //Button names
     private final String ELEV_BUTTON = "ELEVATION";
@@ -39,6 +38,7 @@ public class ViewBuilder implements Builder<Region> {
     private final String CLIMATE_BUTTON = "CLIMATE";
     private final String NEW_WORLD_BUTTON = "NEW WORLD";
     private final String SAVE_BUTTON = "SAVE";
+    private final String LOAD_BUTTON = "LOAD";
 
     //Pane Settings
     private final int SCROLL_PANE_MAX_HEIGHT = 900;
@@ -51,11 +51,12 @@ public class ViewBuilder implements Builder<Region> {
     private final int SIDEBAR_SPACING = 10;
     private final String SIDEBAR_BACKGROUND_COLOR = "#262626";
 
-    public ViewBuilder(Model model, WorldGenRunnable worldGen) {
-        this.model = model;
+    public ViewBuilder(Stage stage, WorldGenRunnable worldGen){
         this.worldGen = worldGen;
         this.width = worldGen.getWidth();
         this.height = worldGen.getHeight();
+        this.saveAndLoad = new SaveAndLoad(this, stage);
+        this.stage = stage;
     }
 
     @Override
@@ -66,7 +67,6 @@ public class ViewBuilder implements Builder<Region> {
         results.setBottom(createBottom());
         results.setLeft(createLeftMenu());
         results.setRight(createRightText());
-        this.window = results;
         return results;
     }
 
@@ -86,6 +86,7 @@ public class ViewBuilder implements Builder<Region> {
     private Node createBottom() {
         Button newWorld = new Button(NEW_WORLD_BUTTON);
         Button save = new Button(SAVE_BUTTON);
+        Button load = new Button(LOAD_BUTTON);
         newWorld.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -104,12 +105,18 @@ public class ViewBuilder implements Builder<Region> {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (worldMap == null) return;
-                SaveWorld saveWorld = new SaveWorld(worldMap);
-                saveWorld.saveWorld("TestSave");
+                saveAndLoad.saveWorld(worldMap);
             }
         });
 
-        HBox start = new HBox(10, newWorld, save);
+        load.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                saveAndLoad.loadWorld();
+            }
+        });
+
+        HBox start = new HBox(10, newWorld, save, load);
         start.setAlignment(Pos.CENTER);
         return start;
     }
@@ -127,13 +134,12 @@ public class ViewBuilder implements Builder<Region> {
         left.setSpacing(SIDEBAR_SPACING);
         left.setPrefWidth(SIDEBAR_WIDTH);
         left.setPadding(new Insets(INSET_SIZE));
-        this.buttonBox = left;
         return left;
     }
 
     //Calls imageGenerator to produce the pixel images to be displayed in the centre
     private void generateImage(String button) {
-        if (!worldGen.isGenerated()) return;
+        if (worldMap == null || !worldGen.isGenerated()) return;
         ImageGenerator imageGenerator = new ImageGenerator(width, height, worldMap);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         Image img = null;
@@ -170,17 +176,16 @@ public class ViewBuilder implements Builder<Region> {
         right.setSpacing(SIDEBAR_SPACING);
         right.setPrefWidth(SIDEBAR_WIDTH);
         right.setPadding(new Insets(INSET_SIZE));
-        this.textBox = right;
         listView.setPrefWidth(SIDEBAR_WIDTH);
         this.listView = listView;
         return listView;
     }
 
-    private void addLabel(String s) {
+    protected void addLabel(String s) {
         addLabel(s, "#000000");
     }
 
-    private void addLabel(String s, String c) {
+    protected void addLabel(String s, String c) {
         Label label = new Label(s);
         label.setStyle("-fx-background-color: " + c);
         label.setWrapText(true);
@@ -188,6 +193,11 @@ public class ViewBuilder implements Builder<Region> {
         label.setMaxWidth(Double.MAX_VALUE);
         listView.getItems().addFirst(label);
 //        if (textBox.getChildren().size() > MAX_LABELS) textBox.getChildren().removeLast();
+    }
+
+    protected void loadNewMap(WorldMap worldMap) {
+        this.worldMap = worldMap;
+        generateImage(ELEV_BUTTON);
     }
 
 }
