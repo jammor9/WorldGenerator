@@ -114,17 +114,11 @@ public class ImageGenerator {
                 double OCEAN_LEVEL = worldMap.getOceanLevel();
                 int rgb = new Color(15, 76, 209).getRGB();
                 switch(climate) {
-                    case HOT_DESERT -> rgb = new Color(217, 7, 7).getRGB();
-                    case HUMID_CONTINENTAL -> rgb = new Color(34, 159, 227).getRGB();
                     case TUNDRA -> rgb = new Color(117, 117, 117).getRGB();
-                    case SUBARCTIC_CONTINENTAL -> rgb = new Color(17, 103, 150).getRGB();
-                    case COLD_DESERT -> rgb = new Color(214, 135, 171).getRGB();
                     case TEMPERATE_FOREST -> rgb = new Color(14, 92, 8).getRGB();
                     case BOREAL_FOREST -> rgb = new Color(8, 92, 63).getRGB();
                     case SAVANNAH -> rgb = new Color(157, 207, 83).getRGB();
                     case TROPICAL -> rgb = new Color(55, 82, 16).getRGB();
-                    case COLD_STEPPE -> rgb = new Color(227, 179, 91).getRGB();
-                    case HOT_STEPPE -> rgb = new Color(217, 121, 26).getRGB();
                     case ICE -> rgb = new Color(200, 200, 200).getRGB();
                     case DESERT -> rgb = new Color(222, 205, 120).getRGB();
                     case GRASSLAND -> rgb = new Color(110, 201, 85).getRGB();

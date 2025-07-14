@@ -2,6 +2,7 @@ package org.jammor9.worldsim;
 
 import org.jammor9.worldsim.worldgenerator.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -85,7 +86,18 @@ public class WorldGenRunnable implements Runnable{
                 Node flowTile = n.getFlowTile();
                 double[] flowCoords = null;
                 if (flowTile != null) flowCoords = new double[] {flowTile.x, flowTile.y};
-                WorldTile t = new WorldTile(x, y, elev, temp, precip, climate, riverSize, flowCoords);
+
+                boolean coastal = false;
+                ArrayList<Node> neighbours = (ArrayList<Node>) terrain.getNeighbours(x, y);
+
+                for (Node neighbour : neighbours) {
+                    if (neighbour.getBiome() == Biome.OCEAN) {
+                        coastal = true;
+                        break;
+                    }
+                }
+
+                WorldTile t = new WorldTile(x, y, elev, temp, precip, climate, riverSize, flowCoords, coastal);
                 worldMap.setTile(t, x, y);
             }
         }

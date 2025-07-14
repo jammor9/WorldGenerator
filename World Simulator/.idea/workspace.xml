@@ -4,15 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Save System&#10;-Added a rudimentary save system&#10;-Truncated decimals for elevation, precipitation, and temperature. This saves a lot of space when the file is saved which wasn't really being used much.">
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Save and Load System&#10;-Created a saving and loading system that is accessed via popups&#10;-Each save has to have a unique name&#10;-All save files are displayed via listview in the loading popup">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/HistorySimulator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ResourceGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Fish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Forest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Gold.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Iron.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Metal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/MetalDeposit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Organic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/OrganicDeposit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Silver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Stone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Tin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Whales.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Interactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Interactor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Model.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/jammor9/worldsim/css/display.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Climate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Climate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +37,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -151,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751919909016</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Save and Load System&#10;-Created a saving and loading system that is accessed via popups&#10;-Each save has to have a unique name&#10;-All save files are displayed via listview in the loading popup">
+      <option name="closed" value="true" />
+      <created>1752090896484</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1752090896484</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -159,6 +182,7 @@
     <MESSAGE value="Added rest of files that I forgot to stage" />
     <MESSAGE value="New UI, bug fixes, performance improvements&#10;-Big part is the new UI, which can now generate worlds and visually display the different data via the interface. This will be later used to visually display the history simulation. &#10;-To improve performance, rather than directly painting to canvas the map is painted to a BufferedImage. This BufferedImage is then painted on to the canvas, which significantly speeds up the program. &#10;-Made improvements to the poleStrength so that it adjusts to different map sizes. &#10;-Create a climate enumerator as the application version of biome" />
     <MESSAGE value="Save System&#10;-Added a rudimentary save system&#10;-Truncated decimals for elevation, precipitation, and temperature. This saves a lot of space when the file is saved which wasn't really being used much." />
-    <option name="LAST_COMMIT_MESSAGE" value="Save System&#10;-Added a rudimentary save system&#10;-Truncated decimals for elevation, precipitation, and temperature. This saves a lot of space when the file is saved which wasn't really being used much." />
+    <MESSAGE value="Save and Load System&#10;-Created a saving and loading system that is accessed via popups&#10;-Each save has to have a unique name&#10;-All save files are displayed via listview in the loading popup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Save and Load System&#10;-Created a saving and loading system that is accessed via popups&#10;-Each save has to have a unique name&#10;-All save files are displayed via listview in the loading popup" />
   </component>
 </project>

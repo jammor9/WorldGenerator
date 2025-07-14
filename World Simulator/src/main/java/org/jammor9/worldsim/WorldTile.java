@@ -2,6 +2,7 @@ package org.jammor9.worldsim;
 
 public class WorldTile {
 
+    //Data imported from WorldGenerator, describes climate of a tile
     public int x;
     public int y;
     private double elevation; //Self explanatory, range between 0.0 and 1.0
@@ -11,7 +12,11 @@ public class WorldTile {
     private Climate climate;
     private int riverSize;
 
-    public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Climate climate, int riverSize, double[] flowTile) {
+    //Data important to simulation
+    private int fertility;
+    private boolean coastal;
+
+    public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Climate climate, int riverSize, double[] flowTile, boolean coastal) {
         this.x = x;
         this.y = y;
         this.elevation = elevation;
@@ -20,6 +25,7 @@ public class WorldTile {
         this.climate = climate;
         this.riverSize = riverSize;
         this.flowTile = flowTile;
+        this.coastal = coastal;
     }
 
     public double getElevation() {
@@ -34,16 +40,8 @@ public class WorldTile {
         return this.precipitation;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
     public double getTemperature() {
         return this.temperature;
-    }
-
-    public void setClimate(Climate climate) {
-        this.climate = climate;
     }
 
     public Climate getClimate() {
@@ -52,6 +50,16 @@ public class WorldTile {
 
     public int getRiverSize() {
         return this.riverSize;
+    }
+
+    public void setFertility(int fertility) {
+        if (fertility < 0) this.fertility = 0;
+        else if (fertility > 100) this.fertility = 100;
+        else this.fertility = fertility;
+    }
+
+    public int getFertility() {
+        return this.fertility;
     }
 
     @Override
