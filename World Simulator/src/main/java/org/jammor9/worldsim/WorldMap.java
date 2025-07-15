@@ -7,12 +7,16 @@ public class WorldMap {
     private final int WIDTH;
     private final int HEIGHT;
     private final double OCEAN_LEVEL;
+    private final double HILL_LEVEL;
+    private final double MOUNTAIN_LEVEL;
     private WorldTile[][] heightmap;
 
-    public WorldMap(int width, int height, double oceanLevel) {
+    public WorldMap(int width, int height, double oceanLevel, double hillLevel, double mountainLevel) {
         this.WIDTH = width;
         this.HEIGHT = height;
         this.OCEAN_LEVEL = oceanLevel;
+        this.HILL_LEVEL = hillLevel;
+        this.MOUNTAIN_LEVEL = mountainLevel;
         this.heightmap = new WorldTile[height][width];
     }
 
@@ -72,6 +76,14 @@ public class WorldMap {
 
     public double getOceanLevel() {
         return this.OCEAN_LEVEL;
+    }
+
+    public double getHillLevel() {
+        return this.HILL_LEVEL;
+    }
+
+    public double getMountainLevel() {
+        return this.MOUNTAIN_LEVEL;
     }
 
     public WorldTile[][] getHeightmap() {

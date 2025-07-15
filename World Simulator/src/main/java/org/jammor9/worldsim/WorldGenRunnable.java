@@ -12,6 +12,8 @@ public class WorldGenRunnable implements Runnable{
 
     private static final double EXPONENTIAL = 2; //Higher exponential makes mountains more pronounced but flattens out elevation map
     private static final double OCEAN_LEVEL = Math.pow(0.09, EXPONENTIAL);
+    private static final double HILL_LEVEL = Math.pow(.3, EXPONENTIAL);
+    private static final double MOUNTAIN_LEVEL = Math.pow(.45, EXPONENTIAL);
     private static final double BASE_TEMPERATURE = 21;
 
     private Terrain terrain;
@@ -74,7 +76,7 @@ public class WorldGenRunnable implements Runnable{
 
     //Converts terrain and node objects from the package to their application WorldMap and WorldTile equivelants
     public void adaptTerrain() {
-        this.worldMap = new WorldMap(WIDTH, HEIGHT, OCEAN_LEVEL);
+        this.worldMap = new WorldMap(WIDTH, HEIGHT, OCEAN_LEVEL, HILL_LEVEL, MOUNTAIN_LEVEL);
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Node n = terrain.getNode(x, y);
