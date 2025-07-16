@@ -31,11 +31,21 @@ public class ViewBuilder implements Builder<Region> {
     private Stage stage;
 
     //Button names
+
+    //Climate Buttons
     private final String ELEV_BUTTON = "ELEVATION";
     private final String PRECIP_BUTTON = "PRECIPITATION";
     private final String RIVER_BUTTON = "RIVERS";
     private final String TEMP_BUTTON = "TEMPERATURE";
     private final String CLIMATE_BUTTON = "CLIMATE";
+
+    //Resource Buttons
+    private final String ORGANIC_DEPOSITS_BUTTON = "ORGANIC DEPOSITS";
+    private final String METAL_DEPOSITS_BUTTON = "METAL DEPOSITS";
+    private final String NON_ORGANIC_DEPOSITS_BUTTON = "NON ORGANIC DEPOSITS";
+    private final String FERTILITY_BUTTON = "FERTILITY";
+
+    //Bottom Buttons
     private final String NEW_WORLD_BUTTON = "NEW WORLD";
     private final String SAVE_BUTTON = "SAVE";
     private final String LOAD_BUTTON = "LOAD";
@@ -128,8 +138,12 @@ public class ViewBuilder implements Builder<Region> {
         Button rivers = generateMapButton(RIVER_BUTTON);
         Button temp = generateMapButton(TEMP_BUTTON);
         Button climate = generateMapButton(CLIMATE_BUTTON);
+        Button organicDeposits = generateMapButton(ORGANIC_DEPOSITS_BUTTON);
+        Button metalDeposits = generateMapButton(METAL_DEPOSITS_BUTTON);
+        Button nonOrganicDeposits = generateMapButton(NON_ORGANIC_DEPOSITS_BUTTON);
+        Button fertility = generateMapButton(FERTILITY_BUTTON);
 
-        VBox left = new VBox(elev, precip, rivers, temp, climate);
+        VBox left = new VBox(elev, precip, rivers, temp, climate, organicDeposits, metalDeposits, nonOrganicDeposits, fertility);
         left.setStyle("-fx-background-color: " + SIDEBAR_BACKGROUND_COLOR);
         left.setSpacing(SIDEBAR_SPACING);
         left.setPrefWidth(SIDEBAR_WIDTH);
@@ -149,6 +163,10 @@ public class ViewBuilder implements Builder<Region> {
         else if (button.equals(RIVER_BUTTON)) img = imageGenerator.generateRiverImage();
         else if (button.equals(TEMP_BUTTON)) img = imageGenerator.generateTemperatureImage();
         else if (button.equals(CLIMATE_BUTTON)) img = imageGenerator.generateClimateImage();
+        else if (button.equals(ORGANIC_DEPOSITS_BUTTON)) img = imageGenerator.generateOrganicImage();
+        else if (button.equals(METAL_DEPOSITS_BUTTON)) img = imageGenerator.generateMetalImage();
+        else if (button.equals(NON_ORGANIC_DEPOSITS_BUTTON)) img = imageGenerator.generateNonOrganicsImage();
+        else if (button.equals(FERTILITY_BUTTON)) img = imageGenerator.generateFertilityImage();
 
         gc.drawImage(img, 0, 0);
     }

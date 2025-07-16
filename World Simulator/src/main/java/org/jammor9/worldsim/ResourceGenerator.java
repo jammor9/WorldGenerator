@@ -49,9 +49,11 @@ public class ResourceGenerator {
     private static final float ADAMANTINE_SPAWN_CHANCE = 0.25F;
 
     //Requirements for certain resources to spawn
-    private static final float MINIMUM_COAL_PRECIP = 0.5F;
+    private static final float MIN_COAL_PRECIP = 0.5F;
+    private static final float MIN_CLAY_PRECIP = 0.8F;
     private static final int MIN_ADAMANTINE_MAGIC = 25;
     private final double MIN_METALS_ELEVATION;
+    private final double MAX_COAL_ELEVATION;
 
     private WorldMap worldMap;
     private Random rng;
@@ -60,38 +62,35 @@ public class ResourceGenerator {
         this.worldMap = worldMap;
         this.rng = rng;
         this.MIN_METALS_ELEVATION = worldMap.getHillLevel();
-    }
-
-    //Calculates how fertile a specific tile is. Uses climate as a basis, then applies river size and precipitation as modifiers to increase fertility
-    public void calculateSoilFertility() {
-        for (int y = 0; y < worldMap.getHeight(); y++) {
-            for (int x = 0; x < worldMap.getWidth(); x++) {
-                WorldTile t = worldMap.getTile(x, y);
-                double precip = t.getPrecipitation();
-                int riverSize = t.getRiverSize();
-                int fertility = biomeFertility.get(t.getClimate()) + (riverSize * 10) + (int) (precip * 10);
-                t.setFertility(fertility);
-            }
-        }
-    }
-
-    public void calculateMagic() {
-        for (int y = 0; y < worldMap.getHeight(); y++) {
-            for (int x = 0; x < worldMap.getWidth(); x++) {
-                WorldTile t = worldMap.getTile(x, y);
-                float p = rng.nextFloat();
-                if (p <= MAGIC_SPAWN_CHANCE) t.setMagic(rng.nextInt(101));
-            }
-        }
+        this.MAX_COAL_ELEVATION = worldMap.getMountainLevel();
     }
 
     public void generateResources() {
         for (int y = 0; y < worldMap.getHeight(); y++) {
             for (int x = 0; x < worldMap.getWidth(); x++) {
                 WorldTile t = worldMap.getTile(x, y);
+                if (t.getClimate() == Climate.OCEAN) continue;
+                calculateSoilFertility(t);
+                calculateMagic(t);
                 generateOrganicDeposits(t);
+                generateMetalDeposits(t);
+                generateNonOrganicDeposits(t);
             }
         }
+    }
+
+    //Calculates how fertile a specific tile is. Uses climate as a basis, then applies river size and precipitation as modifiers to increase fertility
+    private void calculateSoilFertility(WorldTile t) {
+        double precip = t.getPrecipitation();
+        int riverSize = t.getRiverSize();
+        int fertility = biomeFertility.get(t.getClimate()) + (riverSize * 10) + (int) (precip * 10);
+        t.setFertility(fertility);
+    }
+
+    //Randomly spreads magic tiles throughout the map
+    private void calculateMagic(WorldTile t) {
+        float p = rng.nextFloat();
+        if (p <= MAGIC_SPAWN_CHANCE) t.setMagic(rng.nextInt(101));
     }
 
     //Generates forests, fish, and whales
@@ -100,9 +99,9 @@ public class ResourceGenerator {
         int riverSize = t.getRiverSize();
 
         switch(c) {
-            case BOREAL_FOREST, WOODLAND -> t.addOrganicDeposit(new Forest(SMALL_DEPOSIT));
-            case SEASONAL_FOREST -> t.addOrganicDeposit(new Forest(MEDIUM_DEPOSIT));
-            case TEMPERATE_RAINFOREST, TROPICAL -> t.addOrganicDeposit(new Forest(LARGE_DEPOSIT));
+            case BOREAL_FOREST, WOODLAND -> t.addOrganicDeposit(new Wood(SMALL_DEPOSIT));
+            case SEASONAL_FOREST -> t.addOrganicDeposit(new Wood(MEDIUM_DEPOSIT));
+            case TEMPERATE_RAINFOREST, TROPICAL -> t.addOrganicDeposit(new Wood(LARGE_DEPOSIT));
         }
 
         if (t.isCoastal()) {
@@ -140,7 +139,19 @@ public class ResourceGenerator {
     }
 
     private void generateNonOrganicDeposits(WorldTile t) {
+        double elev = t.getElevation();
+        double precip = t.getPrecipitation();
+        int riverSize = t.getRiverSize();
+        float coalSpawnChance = rng.nextFloat();
 
+        //Spawn coal if precipitation is high enough and elevation is low enough
+        if (elev <= MAX_COAL_ELEVATION && precip > MIN_COAL_PRECIP && coalSpawnChance <= COAL_SPAWN_CHANCE) t.addNonOrganicDeposits(new Coal(getRandomDepositSize(), rng.nextBoolean()));
+
+        //Spawn stone in any region above a certain elevation
+        if (elev >= MIN_METALS_ELEVATION) t.addNonOrganicDeposits(new Stone(getRandomDepositSize(), false));
+
+        //Spawn clay in any region of high precipitation, or near a river
+        if (riverSize >= 1 || precip >= MIN_CLAY_PRECIP) t.addNonOrganicDeposits(new Clay(getRandomDepositSize(), false));
     }
 
     private int getRandomDepositSize() {

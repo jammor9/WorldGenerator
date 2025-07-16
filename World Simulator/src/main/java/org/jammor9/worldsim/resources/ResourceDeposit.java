@@ -1,6 +1,6 @@
 package org.jammor9.worldsim.resources;
 
-public abstract class ResourceDeposit {
+public abstract class ResourceDeposit extends Resource {
 
     private final int depositSize; //Determines the total amount of resources in the deposit
     private final boolean deepDeposit; //Determines whether the deposit is located deep underground, locking it behind requirements to access

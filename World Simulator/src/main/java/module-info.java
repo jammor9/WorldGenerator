@@ -15,6 +15,8 @@ module org.jammor9.worldsim {
     requires com.google.gson;
 
     opens org.jammor9.worldsim to com.google.gson;
+    opens org.jammor9.worldsim.resources to com.google.gson;
+
 
     exports org.jammor9.worldsim;
 }

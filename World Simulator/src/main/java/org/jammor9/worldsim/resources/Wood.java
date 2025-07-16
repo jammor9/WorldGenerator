@@ -1,8 +1,10 @@
 package org.jammor9.worldsim.resources;
 
-public class Forest extends OrganicDeposit{
-    public Forest(int depositSize) {
+public class Wood extends OrganicDeposit{
+    public Wood(int depositSize) {
         super(depositSize);
+        addTag(ResourceTags.FUEL);
+        addTag(ResourceTags.LIGHT_CONSTRUCTION);
     }
 
     @Override

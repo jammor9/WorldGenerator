@@ -98,6 +98,18 @@ public class WorldTile {
         return this.magic;
     }
 
+    public ArrayList<OrganicDeposit> getOrganicDeposits() {
+        return this.organicDeposits;
+    }
+
+    public ArrayList<MetalDeposit> getMetalDeposits() {
+        return this.metalDeposits;
+    }
+
+    public ArrayList<ResourceDeposit> getNonOrganicDeposits() {
+        return this.nonOrganicDeposits;
+    }
+
     @Override
     public String toString() {
         return "[" + x + ", "+ y + "]";

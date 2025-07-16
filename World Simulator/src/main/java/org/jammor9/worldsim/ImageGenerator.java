@@ -3,9 +3,11 @@ package org.jammor9.worldsim;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import org.jammor9.worldsim.resources.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class ImageGenerator {
 
@@ -157,4 +159,111 @@ public class ImageGenerator {
         return SwingFXUtils.toFXImage(image, null);
     }
 
+    //Generates a tile fertility map
+    public Image generateFertilityImage() {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                WorldTile t = worldMap.getTile(x, y);
+                int fert = t.getFertility();
+                int rgb = new Color(15, 76, 209).getRGB();
+
+                if (t.getElevation() >= worldMap.getOceanLevel()) {
+                    if (fert >= 90) rgb = new Color(47, 77, 22).getRGB();
+                    else if (fert >= 80) rgb = new Color(70, 110, 37).getRGB();
+                    else if (fert >= 70) rgb = new Color(92, 138, 55).getRGB();
+                    else if (fert >= 60) rgb = new Color(110, 158, 71).getRGB();
+                    else if (fert >= 50) rgb = new Color(141, 176, 91).getRGB();
+                    else if (fert >= 40) rgb = new Color(172, 194, 105).getRGB();
+                    else if (fert >= 30) rgb = new Color(190, 201, 113).getRGB();
+                    else if (fert >= 20) rgb = new Color(202, 204, 112).getRGB();
+                    else if (fert >= 10) rgb = new Color(214, 197, 122).getRGB();
+                    else if (fert >= 0) rgb = new Color(191, 161, 99).getRGB();
+                }
+
+                img.setRGB(x, y, rgb);
+            }
+        }
+        return SwingFXUtils.toFXImage(img, null);
+    }
+
+    //Generates a map of organic deposits
+    public Image generateOrganicImage() {
+        BufferedImage image = SwingFXUtils.fromFXImage(generateElevationImage(), null);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                WorldTile t = worldMap.getTile(x, y);
+                ArrayList<OrganicDeposit> organicDeposits = t.getOrganicDeposits();
+                OrganicDeposit largestDeposit = null;
+                int rgb = new Color(0, 0, 0).getRGB();
+
+                for (OrganicDeposit o : organicDeposits){
+                    if (largestDeposit == null || o.getDepositSize() > largestDeposit.getDepositSize()) largestDeposit = o;
+                }
+
+                if (largestDeposit == null) continue;
+                else if (largestDeposit.getClass() == Wood.class) rgb = new Color(82, 53, 7).getRGB();
+                else if (largestDeposit.getClass() == Fish.class) rgb = new Color(85, 201, 212).getRGB();
+                else if (largestDeposit.getClass() == Whales.class) rgb = new Color(42, 104, 110).getRGB();
+
+                image.setRGB(x, y, rgb);
+            }
+        }
+        return SwingFXUtils.toFXImage(image, null);
+    }
+
+    public Image generateMetalImage() {
+        BufferedImage image = SwingFXUtils.fromFXImage(generateElevationImage(), null);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                WorldTile t = worldMap.getTile(x, y);
+                ArrayList<MetalDeposit> metalDeposits = t.getMetalDeposits();
+                MetalDeposit largestDeposit = null;
+                int rgb = new Color(0, 0, 0).getRGB();
+
+                for (MetalDeposit m : metalDeposits) {
+                    if (largestDeposit == null || m.getDepositSize() > largestDeposit.getDepositSize()) largestDeposit = m;
+                }
+
+                if (largestDeposit == null) continue;
+                else if (largestDeposit.getClass() == Iron.class) rgb = new Color(140, 138, 132).getRGB();
+                else if (largestDeposit.getClass() == Copper.class) rgb = new Color(176, 100, 53).getRGB();
+                else if (largestDeposit.getClass() == Tin.class) rgb = new Color(130, 130, 130).getRGB();
+                else if (largestDeposit.getClass() == Silver.class) rgb = new Color(201, 201, 201).getRGB();
+                else if (largestDeposit.getClass() == Gold.class) rgb = new Color(196, 162, 24).getRGB();
+                else if (largestDeposit.getClass() == Adamantine.class) rgb = new Color(17, 124, 150).getRGB();
+
+                image.setRGB(x, y, rgb);
+            }
+        }
+        return SwingFXUtils.toFXImage(image, null);
+    }
+
+    public Image generateNonOrganicsImage() {
+        BufferedImage image = SwingFXUtils.fromFXImage(generateElevationImage(), null);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                WorldTile t = worldMap.getTile(x, y);
+                ArrayList<ResourceDeposit> resourceDeposits = t.getNonOrganicDeposits();
+                ResourceDeposit largestDeposit = null;
+                int rgb = new Color(0, 0, 0).getRGB();
+
+                for (ResourceDeposit r : resourceDeposits) {
+                    if (largestDeposit == null) largestDeposit = r;
+                    else if (r.getDepositSize() > largestDeposit.getDepositSize()) {
+                        if (r.getClass() == Stone.class && largestDeposit.getClass() == Stone.class) largestDeposit = r;
+                        else if (r.getClass() != Stone.class && largestDeposit.getClass() == Stone.class) largestDeposit = r;
+                    }
+                }
+
+                if (largestDeposit == null) continue;
+                else if (largestDeposit.getClass() == Stone.class) rgb = new Color(117, 117, 117).getRGB();
+                else if (largestDeposit.getClass() == Clay.class) rgb = new Color(138, 53, 14).getRGB();
+                else if (largestDeposit.getClass() == Coal.class) rgb = new Color(59, 59, 59).getRGB();
+
+                image.setRGB(x, y, rgb);
+            }
+        }
+        return SwingFXUtils.toFXImage(image, null);
+    }
 }

@@ -71,11 +71,13 @@ public class WorldGenRunnable implements Runnable{
         atmosphereGenerator.calculateTemperature();
         biomeGenerator.generateBiomes();
         adaptTerrain();
+        ResourceGenerator resourceGenerator = new ResourceGenerator(worldMap, random);
+        resourceGenerator.generateResources();
         this.generated = true;
     }
 
     //Converts terrain and node objects from the package to their application WorldMap and WorldTile equivelants
-    public void adaptTerrain() {
+    private void adaptTerrain() {
         this.worldMap = new WorldMap(WIDTH, HEIGHT, OCEAN_LEVEL, HILL_LEVEL, MOUNTAIN_LEVEL);
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
