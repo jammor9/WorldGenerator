@@ -9,7 +9,9 @@ public class WorldMap {
     private final double OCEAN_LEVEL;
     private final double HILL_LEVEL;
     private final double MOUNTAIN_LEVEL;
-    private WorldTile[][] heightmap;
+    private WorldTile[][] tileMap;
+
+    private Province[] provinces;
 
     public WorldMap(int width, int height, double oceanLevel, double hillLevel, double mountainLevel) {
         this.WIDTH = width;
@@ -17,18 +19,18 @@ public class WorldMap {
         this.OCEAN_LEVEL = oceanLevel;
         this.HILL_LEVEL = hillLevel;
         this.MOUNTAIN_LEVEL = mountainLevel;
-        this.heightmap = new WorldTile[height][width];
+        this.tileMap = new WorldTile[height][width];
     }
 
     //Returns a tile if it is within the bounds of the array
     public WorldTile getTile(int x, int y) {
         if (!isInBounds(x, y)) return null;
-        return heightmap[y][x];
+        return tileMap[y][x];
     }
 
     public void setTile(WorldTile tile, int x, int y) {
         if (!isInBounds(x, y)) return;
-        heightmap[y][x] = tile;
+        tileMap[y][x] = tile;
     }
 
     //Returns all 8 neighbours of a particular grid space
@@ -86,7 +88,15 @@ public class WorldMap {
         return this.MOUNTAIN_LEVEL;
     }
 
+    public void setProvinces(Province[] provinces) {
+        this.provinces = provinces;
+    }
+
+    public Province[] getProvinces() {
+        return this.provinces;
+    }
+
     public WorldTile[][] getHeightmap() {
-        return this.heightmap;
+        return this.tileMap;
     }
 }

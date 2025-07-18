@@ -12,7 +12,7 @@ public class WorldGenRunnable implements Runnable{
 
     private static final double EXPONENTIAL = 2; //Higher exponential makes mountains more pronounced but flattens out elevation map
     private static final double OCEAN_LEVEL = Math.pow(0.09, EXPONENTIAL);
-    private static final double HILL_LEVEL = Math.pow(.3, EXPONENTIAL);
+    private static final double HILL_LEVEL = Math.pow(.1, EXPONENTIAL);
     private static final double MOUNTAIN_LEVEL = Math.pow(.45, EXPONENTIAL);
     private static final double BASE_TEMPERATURE = 21;
 
@@ -73,6 +73,8 @@ public class WorldGenRunnable implements Runnable{
         adaptTerrain();
         ResourceGenerator resourceGenerator = new ResourceGenerator(worldMap, random);
         resourceGenerator.generateResources();
+        RegionsGenerator regionsGenerator = new RegionsGenerator(worldMap, random);
+        worldMap.setProvinces(regionsGenerator.generateRegions());
         this.generated = true;
     }
 

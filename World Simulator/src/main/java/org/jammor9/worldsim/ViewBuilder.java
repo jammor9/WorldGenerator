@@ -45,6 +45,9 @@ public class ViewBuilder implements Builder<Region> {
     private final String NON_ORGANIC_DEPOSITS_BUTTON = "NON ORGANIC DEPOSITS";
     private final String FERTILITY_BUTTON = "FERTILITY";
 
+    //Political Buttons
+    private final String PROVINCE_BUTTON = "PROVINCES";
+
     //Bottom Buttons
     private final String NEW_WORLD_BUTTON = "NEW WORLD";
     private final String SAVE_BUTTON = "SAVE";
@@ -142,8 +145,9 @@ public class ViewBuilder implements Builder<Region> {
         Button metalDeposits = generateMapButton(METAL_DEPOSITS_BUTTON);
         Button nonOrganicDeposits = generateMapButton(NON_ORGANIC_DEPOSITS_BUTTON);
         Button fertility = generateMapButton(FERTILITY_BUTTON);
+        Button provinces = generateMapButton(PROVINCE_BUTTON);
 
-        VBox left = new VBox(elev, precip, rivers, temp, climate, organicDeposits, metalDeposits, nonOrganicDeposits, fertility);
+        VBox left = new VBox(elev, precip, rivers, temp, climate, organicDeposits, metalDeposits, nonOrganicDeposits, fertility, provinces);
         left.setStyle("-fx-background-color: " + SIDEBAR_BACKGROUND_COLOR);
         left.setSpacing(SIDEBAR_SPACING);
         left.setPrefWidth(SIDEBAR_WIDTH);
@@ -167,6 +171,7 @@ public class ViewBuilder implements Builder<Region> {
         else if (button.equals(METAL_DEPOSITS_BUTTON)) img = imageGenerator.generateMetalImage();
         else if (button.equals(NON_ORGANIC_DEPOSITS_BUTTON)) img = imageGenerator.generateNonOrganicsImage();
         else if (button.equals(FERTILITY_BUTTON)) img = imageGenerator.generateFertilityImage();
+        else if (button.equals(PROVINCE_BUTTON)) img = imageGenerator.generateProvincesImage();
 
         gc.drawImage(img, 0, 0);
     }

@@ -168,7 +168,7 @@ public class ImageGenerator {
                 int fert = t.getFertility();
                 int rgb = new Color(15, 76, 209).getRGB();
 
-                if (t.getElevation() >= worldMap.getOceanLevel()) {
+                if (t.getClimate() != Climate.OCEAN) {
                     if (fert >= 90) rgb = new Color(47, 77, 22).getRGB();
                     else if (fert >= 80) rgb = new Color(70, 110, 37).getRGB();
                     else if (fert >= 70) rgb = new Color(92, 138, 55).getRGB();
@@ -264,6 +264,27 @@ public class ImageGenerator {
                 image.setRGB(x, y, rgb);
             }
         }
+        return SwingFXUtils.toFXImage(image, null);
+    }
+
+    public Image generateProvincesImage() {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Province[] provinces = worldMap.getProvinces();
+
+        for (Province p : provinces) {
+            if (p == null) continue;
+            for (WorldTile t : p.getProvinceTiles()) {
+                image.setRGB(t.x, t.y, p.getColor());
+            }
+        }
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                WorldTile t = worldMap.getTile(x, y);
+                if (t.getClimate() == Climate.OCEAN) image.setRGB(x, y, new Color(15, 76, 209).getRGB());
+            }
+        }
+
         return SwingFXUtils.toFXImage(image, null);
     }
 }

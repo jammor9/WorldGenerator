@@ -1,6 +1,7 @@
 package org.jammor9.worldsim;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
 import eu.hansolo.toolbox.Constants;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+import org.jammor9.worldsim.resources.*;
 
 import java.io.*;
 import java.util.Objects;
@@ -21,13 +23,17 @@ import java.util.Observable;
 
 public class SaveAndLoad{
 
-    private static Gson gson = new Gson();
+    private static Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Resource.class, new AbstractSerializer())
+            .registerTypeAdapter(OrganicDeposit.class, new AbstractSerializer())
+            .registerTypeAdapter(MetalDeposit.class, new AbstractSerializer())
+            .registerTypeAdapter(ResourceDeposit.class, new AbstractSerializer()).create();
 
     //Text for popup boxes and returns
     private static final String INPUT_STRING = "Enter save name: ";
     private static final String SAVE_BUTTON = "SAVE";
     private static final String LOAD_BUTTON = "LOAD";
-    private static final String SUCCESSFUL_SAVE = "SAVE SUCCESSFUL";
+    private static final String SAVE_SUCCESSFUL = "SAVE SUCCESSFUL";
     private static final String NAME_EXISTS = "SAVE NAME ALREADY EXISTS!";
     private static final String LOAD_SUCCESSFUL = "LOAD SUCCESSFUL";
 
@@ -75,7 +81,7 @@ public class SaveAndLoad{
                         gson.toJson(worldMap, w);
                         w.close();
                         pop.hide();
-                        view.addLabel(LOAD_SUCCESSFUL);
+                        view.addLabel(SAVE_SUCCESSFUL);
                     }
                     else {
                         if (!vbox.getChildren().contains(errorLabel)) vbox.getChildren().add(errorLabel);
