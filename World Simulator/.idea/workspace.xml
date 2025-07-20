@@ -4,21 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Tags &amp; New Map Modes&#10;-Added a tagging system to make it easier to determine the uses of a resource later on&#10;-Added new map modes for the new resource deposits and fertility&#10;-Added a resource abstract class to represent all resources&#10;-New issue with loading due to abstract classes, will have to find a fix later&#10;-Issue with fertility map mode where some water is filled in as land, will need to be investigated">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Province.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/RegionsGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/AbstractSerializer.java" afterDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ZoomableScrollPane.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Farm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Ranch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/AnimalEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/Entity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Food.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Clay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Clay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Coal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Coal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceTypeAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -72,6 +71,8 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TimeTest.TestTimePassage.executor": "Debug",
+    "JUnit.TimeTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "true",
@@ -98,10 +99,41 @@
       <recent name="org.jammor9.worldsim" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.jammor9.worldsim.Main" />
       <module name="worldsim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TimeTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="worldsim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="timetests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="timetests" />
+      <option name="MAIN_CLASS_NAME" value="timetests.TimeTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TimeTest.TestTimePassage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="worldsim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="timetests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="timetests" />
+      <option name="MAIN_CLASS_NAME" value="timetests.TimeTest" />
+      <option name="METHOD_NAME" value="TestTimePassage" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -117,6 +149,12 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TimeTest" />
+        <item itemvalue="JUnit.TimeTest.TestTimePassage" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -190,7 +228,23 @@
       <option name="project" value="LOCAL" />
       <updated>1752699809657</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Regions &amp; Abstract Class Saving&#10;+Added a new provinces class. This will later be used to handle much of the simulation and the state and town level. &#10;+Implemented a type adapter for the abstract classes, fixing saving and loading issues">
+      <option name="closed" value="true" />
+      <created>1752855532775</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1752855532775</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed.">
+      <option name="closed" value="true" />
+      <created>1753037144807</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1753037144807</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -202,6 +256,8 @@
     <MESSAGE value="Resource Framework&#10;-Created a framework for resources to be handled when resource generation is implemented&#10;-Separated into three distinct categories, organics, non-organics, and metals&#10;-Also added a fertility variable to the WorldTile, which will later be used to determine quality and quantity of crops &#10;-So far only basic resources, extracted from deposits, have been added. Later on industrial and luxury resources will be added, each which require manufacture." />
     <MESSAGE value="Metal spawning&#10;-Added the logic for spawning metals on the world map, values are experimental and will be changed to produce satisfactory results&#10;-Added a hill level and mountain level to the WorldMap, making it easier to track these values during the hisory simulation" />
     <MESSAGE value="Tags &amp; New Map Modes&#10;-Added a tagging system to make it easier to determine the uses of a resource later on&#10;-Added new map modes for the new resource deposits and fertility&#10;-Added a resource abstract class to represent all resources&#10;-New issue with loading due to abstract classes, will have to find a fix later&#10;-Issue with fertility map mode where some water is filled in as land, will need to be investigated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tags &amp; New Map Modes&#10;-Added a tagging system to make it easier to determine the uses of a resource later on&#10;-Added new map modes for the new resource deposits and fertility&#10;-Added a resource abstract class to represent all resources&#10;-New issue with loading due to abstract classes, will have to find a fix later&#10;-Issue with fertility map mode where some water is filled in as land, will need to be investigated" />
+    <MESSAGE value="Regions &amp; Abstract Class Saving&#10;+Added a new provinces class. This will later be used to handle much of the simulation and the state and town level. &#10;+Implemented a type adapter for the abstract classes, fixing saving and loading issues" />
+    <MESSAGE value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
   </component>
 </project>

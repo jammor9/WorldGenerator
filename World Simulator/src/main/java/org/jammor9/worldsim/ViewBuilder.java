@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -64,6 +67,8 @@ public class ViewBuilder implements Builder<Region> {
     private final int SIDEBAR_SPACING = 10;
     private final String SIDEBAR_BACKGROUND_COLOR = "#262626";
 
+    private static final int SCALE = 2; //How much to scale with each key press
+
     public ViewBuilder(Stage stage, WorldGenRunnable worldGen){
         this.worldGen = worldGen;
         this.width = worldGen.getWidth();
@@ -85,14 +90,16 @@ public class ViewBuilder implements Builder<Region> {
 
     private Node createCenterMap(int width, int height) {
         Canvas canvas = new Canvas(width, height);
-        ScrollPane scrollPane = new ScrollPane(canvas);
+//        Group group = new Group(canvas);
+//        ScrollPane scrollPane = new ScrollPane(group);
+        ZoomableScrollPane scrollPane = new ZoomableScrollPane(canvas);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width, height);
         scrollPane.setMaxHeight(Math.min(height, SCROLL_PANE_MAX_HEIGHT));
         scrollPane.setMaxWidth(Math.min(width, SCROLL_PANE_MAX_WIDTH));
+
         this.canvas = canvas;
-        scrollPane.setPannable(true);
         return scrollPane;
     }
 
@@ -172,6 +179,8 @@ public class ViewBuilder implements Builder<Region> {
         else if (button.equals(NON_ORGANIC_DEPOSITS_BUTTON)) img = imageGenerator.generateNonOrganicsImage();
         else if (button.equals(FERTILITY_BUTTON)) img = imageGenerator.generateFertilityImage();
         else if (button.equals(PROVINCE_BUTTON)) img = imageGenerator.generateProvincesImage();
+
+
 
         gc.drawImage(img, 0, 0);
     }
