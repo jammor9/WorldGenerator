@@ -5,8 +5,6 @@ import java.util.ArrayList;
 public abstract class Resource {
     private ArrayList<ResourceTags> tags = new ArrayList<>();
 
-    public Resource() {}
-
     public void addTag(ResourceTags tag) {
         tags.add(tag);
     }

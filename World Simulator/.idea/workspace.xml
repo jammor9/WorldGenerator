@@ -4,18 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ZoomableScrollPane.java" afterDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position">
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/CharcoalBurner.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Farm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Loggers.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Ranch.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/AnimalEntity.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/Entity.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Food.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ViewBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" afterDir="false" />
     </list>
@@ -66,25 +69,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.TimeTest.TestTimePassage.executor": "Debug",
-    "JUnit.TimeTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "true",
-    "Repository.Attach.Sources": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.TimeTest.TestTimePassage.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.TimeTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.jammor9.worldsim.simulationinterface" />
@@ -244,7 +247,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753037144807</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position">
+      <option name="closed" value="true" />
+      <created>1753043786478</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1753043786478</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -258,6 +269,7 @@
     <MESSAGE value="Tags &amp; New Map Modes&#10;-Added a tagging system to make it easier to determine the uses of a resource later on&#10;-Added new map modes for the new resource deposits and fertility&#10;-Added a resource abstract class to represent all resources&#10;-New issue with loading due to abstract classes, will have to find a fix later&#10;-Issue with fertility map mode where some water is filled in as land, will need to be investigated" />
     <MESSAGE value="Regions &amp; Abstract Class Saving&#10;+Added a new provinces class. This will later be used to handle much of the simulation and the state and town level. &#10;+Implemented a type adapter for the abstract classes, fixing saving and loading issues" />
     <MESSAGE value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
+    <MESSAGE value="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position" />
+    <option name="LAST_COMMIT_MESSAGE" value="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position" />
   </component>
 </project>
