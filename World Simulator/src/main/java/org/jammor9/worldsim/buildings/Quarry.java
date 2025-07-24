@@ -1,9 +1,6 @@
 package org.jammor9.worldsim.buildings;
 
 import org.jammor9.worldsim.resources.ResourceDeposit;
-import org.jammor9.worldsim.resources.ResourceStockpile;
-
-import java.util.HashMap;
 
 public class Quarry extends Building{
     private static final int DAYS_TO_CONSTRUCT = 45;

@@ -145,7 +145,7 @@ public class ResourceGenerator {
         float coalSpawnChance = rng.nextFloat();
 
         //Spawn coal if precipitation is high enough and elevation is low enough
-        if (elev <= MAX_COAL_ELEVATION && precip > MIN_COAL_PRECIP && coalSpawnChance <= COAL_SPAWN_CHANCE) t.addNonOrganicDeposits(new Coal(getRandomDepositSize(), rng.nextBoolean()));
+        if (elev <= MAX_COAL_ELEVATION && precip > MIN_COAL_PRECIP && coalSpawnChance <= COAL_SPAWN_CHANCE) t.addNonOrganicDeposits(new CoalDeposit(getRandomDepositSize(), rng.nextBoolean()));
 
         //Spawn stone in any region above a certain elevation
         if (elev >= MIN_METALS_ELEVATION) t.addNonOrganicDeposits(new Stone(getRandomDepositSize(), false));

@@ -2,12 +2,9 @@ package org.jammor9.worldsim;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonWriter;
-import eu.hansolo.toolbox.Constants;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -19,14 +16,13 @@ import org.jammor9.worldsim.resources.*;
 
 import java.io.*;
 import java.util.Objects;
-import java.util.Observable;
 
 public class SaveAndLoad{
 
     private static Gson gson = new GsonBuilder()
             .registerTypeAdapter(Resource.class, new AbstractSerializer())
             .registerTypeAdapter(OrganicDeposit.class, new AbstractSerializer())
-            .registerTypeAdapter(MetalDeposit.class, new AbstractSerializer())
+            .registerTypeAdapter(OreDeposit.class, new AbstractSerializer())
             .registerTypeAdapter(ResourceDeposit.class, new AbstractSerializer()).create();
 
     //Text for popup boxes and returns

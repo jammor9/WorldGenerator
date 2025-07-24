@@ -1,11 +1,6 @@
 package org.jammor9.worldsim.buildings;
 
-import org.jammor9.worldsim.resources.MetalDeposit;
-import org.jammor9.worldsim.resources.ResourceDeposit;
-import org.jammor9.worldsim.resources.ResourceStockpile;
-import org.jammor9.worldsim.resources.Wood;
-
-import java.util.HashMap;
+import org.jammor9.worldsim.resources.OreDeposit;
 
 public class OreMine extends Building{
     // Output | Workforce | Upkeep Cost
@@ -18,8 +13,8 @@ public class OreMine extends Building{
     private static final int DAYS_TO_UPGRADE = 30;
     private static final int BUILD_COST = 200;
 
-    public OreMine(MetalDeposit metalDeposit) {
-        super(BUILDING_TIERS.length, DAYS_TO_CONSTRUCT, BUILD_COST, DAYS_TO_UPGRADE, metalDeposit.getClass().toString());
+    public OreMine(OreDeposit oreDeposit) {
+        super(BUILDING_TIERS.length, DAYS_TO_CONSTRUCT, BUILD_COST, DAYS_TO_UPGRADE, oreDeposit.getClass().toString());
         for (int[] tier : BUILDING_TIERS) buildingTiers.add(new BuildingTier(tier[0], tier[1], tier[2]));
     }
 }

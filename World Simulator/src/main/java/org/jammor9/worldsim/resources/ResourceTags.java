@@ -6,5 +6,6 @@ public enum ResourceTags {
     LIGHT_CONSTRUCTION,
     HEAVY_CONSTRUCTION,
     FOOD,
-    MAGIC
+    MAGIC,
+    METAL
 }

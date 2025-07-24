@@ -5,11 +5,13 @@ import java.util.Random;
 public class HistorySimulator {
 
     private WorldMap worldMap;
-    private Random rng;
+    private Random worldGenRng;
+    private Random gameRng;
 
     public HistorySimulator(int seed, WorldMap worldMap) {
         this.worldMap = worldMap;
-        this.rng = new Random(seed);
+        this.worldGenRng = new Random(seed);
+        this.gameRng = new Random(); //History generation should be random even if the same world is generated
     }
 
     //Generates mineral deposits on the map

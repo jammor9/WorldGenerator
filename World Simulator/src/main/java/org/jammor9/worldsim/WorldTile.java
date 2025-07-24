@@ -1,6 +1,6 @@
 package org.jammor9.worldsim;
 
-import org.jammor9.worldsim.resources.MetalDeposit;
+import org.jammor9.worldsim.resources.OreDeposit;
 import org.jammor9.worldsim.resources.OrganicDeposit;
 import org.jammor9.worldsim.resources.ResourceDeposit;
 
@@ -23,7 +23,7 @@ public class WorldTile {
     private int magic; //Inate magic of the tile, range 0-100. Determines the likelihood of fantastical events, spawning adamantine, and attractivenes to mage colleges
     private boolean coastal; //Whether a tile is adjacenet to the coast
     private ArrayList<OrganicDeposit> organicDeposits = new ArrayList<>(); //List of organic deposits, i.e. forests
-    private ArrayList<MetalDeposit> metalDeposits = new ArrayList<>(); //List of metal deposits, i.e. iron
+    private ArrayList<OreDeposit> oreDeposits = new ArrayList<>(); //List of metal deposits, i.e. iron
     private ArrayList<ResourceDeposit> nonOrganicDeposits = new ArrayList<>(); //List of non-organic deposits i.e. stone
 
     public WorldTile(int x, int y, double elevation, double temperature, double precipitation, Climate climate, int riverSize, double[] flowTile, boolean coastal) {
@@ -42,8 +42,8 @@ public class WorldTile {
         organicDeposits.add(o);
     }
 
-    public void addMetalDeposit(MetalDeposit m) {
-        metalDeposits.add(m);
+    public void addMetalDeposit(OreDeposit m) {
+        oreDeposits.add(m);
     }
 
     public void addNonOrganicDeposits(ResourceDeposit r) {
@@ -102,8 +102,8 @@ public class WorldTile {
         return this.organicDeposits;
     }
 
-    public ArrayList<MetalDeposit> getMetalDeposits() {
-        return this.metalDeposits;
+    public ArrayList<OreDeposit> getMetalDeposits() {
+        return this.oreDeposits;
     }
 
     public ArrayList<ResourceDeposit> getNonOrganicDeposits() {

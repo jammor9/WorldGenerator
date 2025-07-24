@@ -1,6 +1,6 @@
 package org.jammor9.worldsim.resources;
 
-public class Iron extends MetalDeposit{
+public class Iron extends OreDeposit {
     public Iron(int depositSize, boolean deepDeposit) {
         super(depositSize, deepDeposit);
     }

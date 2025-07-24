@@ -4,18 +4,20 @@ package org.jammor9.worldsim;
 
 import java.util.Random;
 
-public class RegionsGenerator {
+public class ProvinceGenerator {
     private WorldMap worldMap;
-    private Random rng;
+    private Random worldRng;
+    private Random gameRng;
     private final int plateNum;
 
     private int[][] grid;
     private int width;
     private int height;
 
-    public RegionsGenerator(WorldMap worldMap, Random rng) {
+    public ProvinceGenerator(WorldMap worldMap, Random worldRng, Random gameRng) {
         this.worldMap = worldMap;
-        this.rng = rng;
+        this.worldRng = worldRng;
+        this.gameRng = gameRng;
         this.plateNum = worldMap.getHeight() + worldMap.getWidth();
         this.width = worldMap.getWidth();
         this.height = worldMap.getHeight();
@@ -28,12 +30,12 @@ public class RegionsGenerator {
         int numEmptyCells = 0;
 
         for (int plate = 1; plate <= plateNum; plate++) {
-            int x = rng.nextInt(width);
-            int y = rng.nextInt(height);
+            int x = worldRng.nextInt(width);
+            int y = worldRng.nextInt(height);
 
             while (grid[y][x] != 0) {
-                x = rng.nextInt(width);
-                y = rng.nextInt(height);
+                x = worldRng.nextInt(width);
+                y = worldRng.nextInt(height);
             }
 
             numEmptyCells = setCell(x, y, plate, cells, numEmptyCells, claimed);
@@ -41,7 +43,7 @@ public class RegionsGenerator {
         }
 
         while (numEmptyCells > 0) {
-            int idx = rng.nextInt(numEmptyCells);
+            int idx = worldRng.nextInt(numEmptyCells);
             int cell = cells[idx];
             cells[idx] = cells[--numEmptyCells];
 
@@ -94,7 +96,7 @@ public class RegionsGenerator {
         if(grid[up][x] != 0) plates[count++] = grid[up][x];
         if(grid[down][x] != 0) plates[count++] = grid[down][x];
 
-        return plates[rng.nextInt(count)];
+        return plates[worldRng.nextInt(count)];
     }
 
     private void claimOcean(boolean[][] claimed) {
@@ -109,13 +111,13 @@ public class RegionsGenerator {
         fill();
         int[] colors = new int[plateNum];
         Province[] provinces = new Province[plateNum];
-        for (int i = 0; i < colors.length; i++) colors[i] = rng.nextInt(0xFFFFFF);
+        for (int i = 0; i < colors.length; i++) colors[i] = worldRng.nextInt(0xFFFFFF);
 
         for (int y = 0; y < height; y++){
             for (int x = 0; x < width; x++) {
                 if (grid[y][x] > 0) {
                     if (worldMap.getTile(x, y).getClimate() == Climate.OCEAN) continue;
-                    if (provinces[grid[y][x]-1] == null) provinces[grid[y][x]-1] = new Province(colors[grid[y][x]-1]);
+                    if (provinces[grid[y][x]-1] == null) provinces[grid[y][x]-1] = new Province(colors[grid[y][x]-1], gameRng);
                     provinces[grid[y][x]-1].addTile(worldMap.getTile(x, y));
                 }
             }

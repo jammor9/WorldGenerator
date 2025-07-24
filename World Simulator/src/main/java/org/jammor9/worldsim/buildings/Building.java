@@ -93,4 +93,8 @@ public abstract class Building {
     public int getUpkeepCost() {
         return buildingTiers.get(upgradeTier).upkeepCost;
     }
+
+    public int getDaysToConstruct() {
+        return this.daysToConstruct;
+    }
 }

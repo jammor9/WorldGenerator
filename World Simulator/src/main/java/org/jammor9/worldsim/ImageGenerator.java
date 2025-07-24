@@ -217,11 +217,11 @@ public class ImageGenerator {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 WorldTile t = worldMap.getTile(x, y);
-                ArrayList<MetalDeposit> metalDeposits = t.getMetalDeposits();
-                MetalDeposit largestDeposit = null;
+                ArrayList<OreDeposit> oreDeposits = t.getMetalDeposits();
+                OreDeposit largestDeposit = null;
                 int rgb = new Color(0, 0, 0).getRGB();
 
-                for (MetalDeposit m : metalDeposits) {
+                for (OreDeposit m : oreDeposits) {
                     if (largestDeposit == null || m.getDepositSize() > largestDeposit.getDepositSize()) largestDeposit = m;
                 }
 
@@ -259,7 +259,7 @@ public class ImageGenerator {
                 if (largestDeposit == null) continue;
                 else if (largestDeposit.getClass() == Stone.class) rgb = new Color(117, 117, 117).getRGB();
                 else if (largestDeposit.getClass() == Clay.class) rgb = new Color(138, 53, 14).getRGB();
-                else if (largestDeposit.getClass() == Coal.class) rgb = new Color(59, 59, 59).getRGB();
+                else if (largestDeposit.getClass() == CoalDeposit.class) rgb = new Color(59, 59, 59).getRGB();
 
                 image.setRGB(x, y, rgb);
             }

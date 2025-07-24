@@ -1,7 +1,11 @@
 package org.jammor9.worldsim.resources;
 
 public abstract class ResourceStockpile extends Resource {
-    int stockpileSize = 0;
+    int stockpileSize;
+
+    public ResourceStockpile(int stockpileSize) {
+        this.stockpileSize = stockpileSize;
+    }
 
     public void addToStockpile(int newStock) {
         this.stockpileSize += newStock;

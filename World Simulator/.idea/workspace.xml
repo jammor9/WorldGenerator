@@ -4,23 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" afterDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class">
       <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/CharcoalBurner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Farm.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Loggers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Ranch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/AnimalEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/entities/Entity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Food.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/ConstructionOffice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreSmelter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/SteelSmelter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CharcoalStockpile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CoalStockpile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Steel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/TimeDuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Resource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceDeposit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/HistorySimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/HistorySimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Province.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Province.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/RegionsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ProvinceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ResourceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ResourceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Coal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CoalDeposit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Gold.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Gold.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Iron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Iron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Metal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Ore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/MetalDeposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/OreDeposit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceTags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceTags.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Silver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Silver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Tin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Tin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/SimListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/SimListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/Simulatorclock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/Simulatorclock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +49,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -59,7 +78,7 @@
     </option>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -255,7 +274,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753043786478</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class">
+      <option name="closed" value="true" />
+      <created>1753117845037</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1753117845037</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -270,6 +297,7 @@
     <MESSAGE value="Regions &amp; Abstract Class Saving&#10;+Added a new provinces class. This will later be used to handle much of the simulation and the state and town level. &#10;+Implemented a type adapter for the abstract classes, fixing saving and loading issues" />
     <MESSAGE value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
     <MESSAGE value="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position" />
+    <MESSAGE value="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class" />
   </component>
 </project>

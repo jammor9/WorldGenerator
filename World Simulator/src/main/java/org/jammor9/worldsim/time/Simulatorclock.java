@@ -13,21 +13,16 @@ public class Simulatorclock {
     private int currentMonth;
     private int currentDay;
 
-    //Listener Types
-    private static final String DAY_LISTENER = "DAY";
-    private static final String MONTH_LISTENER = "MONTH";
-    private static final String YEAR_LISTENER = "YEAR";
-
-    private HashMap<String, ArrayList<SimListener>> listeners = new HashMap<>() {};
+    private HashMap<TimeDuration, ArrayList<SimListener>> listeners = new HashMap<>() {};
 
     private Simulatorclock(int currentDay, int currentMonth, int currentYear) {
         this.currentDay = currentDay;
         this.currentMonth = currentMonth;
         this.currentYear = currentYear;
 
-        listeners.put(DAY_LISTENER, new ArrayList<>());
-        listeners.put(MONTH_LISTENER, new ArrayList<>());
-        listeners.put(YEAR_LISTENER, new ArrayList<>());
+        listeners.put(TimeDuration.DAY, new ArrayList<>());
+        listeners.put(TimeDuration.MONTH, new ArrayList<>());
+        listeners.put(TimeDuration.YEAR, new ArrayList<>());
     }
 
     public static Simulatorclock getInstance() {
@@ -37,37 +32,37 @@ public class Simulatorclock {
 
     public void passDay() {
         currentDay++;
-        update(DAY_LISTENER);
+        update(TimeDuration.DAY);
         if (currentDay % DAYS_IN_MONTH == 0) newMonth();
     }
 
     private void newMonth() {
         currentMonth++;
-        update(MONTH_LISTENER);
+        update(TimeDuration.MONTH);
         if (currentMonth % MONTHS_IN_YEAR == 0) newYear();
     }
 
     private void newYear() {
         currentYear++;
-        update(YEAR_LISTENER);
+        update(TimeDuration.YEAR);
     }
 
     public int getDay() {
         return this.currentDay;
     }
 
-    public void addListener(String type, SimListener listener) {
+    public void addListener(TimeDuration type, SimListener listener) {
         listeners.get(type).add(listener);
     }
 
-    public void removeListener(String type, SimListener listener) {
+    public void removeListener(TimeDuration type, SimListener listener) {
         listeners.get(type).remove(listener);
     }
 
-    public void update(String type) {
+    public void update(TimeDuration type) {
         ArrayList<SimListener> toUpdate = listeners.get(type);
         for (SimListener l : toUpdate) {
-            l.timePassed();
+            l.timePassed(type);
         }
     }
 

@@ -1,8 +1,8 @@
 package org.jammor9.worldsim.resources;
 
-public class Coal extends ResourceDeposit{
+public class CoalDeposit extends ResourceDeposit{
 
-    public Coal(int depositSize, boolean deepDeposit) {
+    public CoalDeposit(int depositSize, boolean deepDeposit) {
         super(depositSize, deepDeposit, false);
         addTag(ResourceTags.FUEL);
     }

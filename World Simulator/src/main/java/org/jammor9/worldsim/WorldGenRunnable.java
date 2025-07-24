@@ -32,6 +32,7 @@ public class WorldGenRunnable implements Runnable{
     public void run() {
         terrain = new Terrain(WIDTH, HEIGHT, OCEAN_LEVEL);
         Random seedGen = new Random();
+        Random gameRng = new Random();
         seed = seedGen.nextInt();
 //        seed = 8888; //Debug Seed
         Random random = new Random(seed);
@@ -73,8 +74,8 @@ public class WorldGenRunnable implements Runnable{
         adaptTerrain();
         ResourceGenerator resourceGenerator = new ResourceGenerator(worldMap, random);
         resourceGenerator.generateResources();
-        RegionsGenerator regionsGenerator = new RegionsGenerator(worldMap, random);
-        worldMap.setProvinces(regionsGenerator.generateRegions());
+        ProvinceGenerator provinceGenerator = new ProvinceGenerator(worldMap, random, gameRng);
+        worldMap.setProvinces(provinceGenerator.generateRegions());
         this.generated = true;
     }
 
