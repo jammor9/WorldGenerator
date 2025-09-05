@@ -57,6 +57,7 @@ public class SaveAndLoad{
         vbox.setAlignment(Pos.CENTER);
 
         Popup pop = new Popup();
+        pop.setAutoHide(true);
         vbox.setPrefHeight(POPUP_HEIGHT);
         vbox.setPrefWidth(POPUP_WIDTH);
         vbox.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("css/display.css")).toExternalForm());
@@ -98,6 +99,7 @@ public class SaveAndLoad{
         vbox.setAlignment(Pos.CENTER);
 
         Popup pop = new Popup();
+        pop.setAutoHide(true);
         vbox.setPrefHeight(POPUP_HEIGHT);
         vbox.setPrefWidth(POPUP_WIDTH);
         vbox.getStylesheets().add(Objects.requireNonNull(this.getClass().getResource("css/display.css")).toExternalForm());

@@ -117,7 +117,7 @@ public class ProvinceGenerator {
             for (int x = 0; x < width; x++) {
                 if (grid[y][x] > 0) {
                     if (worldMap.getTile(x, y).getClimate() == Climate.OCEAN) continue;
-                    if (provinces[grid[y][x]-1] == null) provinces[grid[y][x]-1] = new Province(colors[grid[y][x]-1], gameRng);
+                    if (provinces[grid[y][x]-1] == null) provinces[grid[y][x]-1] = new Province(colors[grid[y][x]-1], gameRng.nextInt());
                     provinces[grid[y][x]-1].addTile(worldMap.getTile(x, y));
                 }
             }

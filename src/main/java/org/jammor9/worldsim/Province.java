@@ -19,7 +19,7 @@ public class Province implements SimListener {
     private HashSet<WorldTile> provinceTiles = new HashSet<>();
     private Town capital;
     private int regionColor;
-    private Random gameRng;
+    private int gameRngSeed;
 
     private int income;
     private int expenses;
@@ -33,10 +33,10 @@ public class Province implements SimListener {
     //Local community data, towns generally grow around exploitation deposits
     private HashSet<Town> provinceTowns = new HashSet<>();
 
-    public Province(int regionColor, Random gameRng) {
+    public Province(int regionColor, int gameRngSeed) {
         this.regionColor = regionColor;
 //        this.income = BASE_INCOME;
-        this.gameRng = gameRng;
+        this.gameRngSeed = gameRngSeed;
 //        this.capital = createCapital();
 //        provinceTowns.add(capital);
 //        activeBuildings.add(capital.building);
