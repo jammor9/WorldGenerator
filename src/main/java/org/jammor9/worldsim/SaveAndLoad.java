@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import org.jammor9.worldsim.resources.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class SaveAndLoad{
@@ -40,12 +42,19 @@ public class SaveAndLoad{
 
     private Stage stage;
     private ViewBuilder view;
-    private static final String SAVE_DIRECTORY = "save/";
+    private final String SAVE_DIRECTORY;
 
     public SaveAndLoad(ViewBuilder view, Stage stage) {
         this.view = view;
         this.stage = stage;
+        this.SAVE_DIRECTORY = System.getProperty("user.dir") + "/saves/";
+        try {
+            Files.createDirectories(Paths.get(SAVE_DIRECTORY));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     //Creates a popup with an input, save button, and hidden error label
     //Takes a filename as an input from the user, if it already exists raises an error and shows error label
