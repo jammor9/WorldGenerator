@@ -1,45 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="worldsim:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/CharcoalBurner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/ConstructionOffice.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreSmelter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/SteelSmelter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CharcoalStockpile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CoalStockpile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Steel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/TimeDuration.java" afterDir="false" />
+    <list default="true" id="50d43420-537e-43b6-a737-13fcfdca0440" name="Changes" comment="Manufactories &amp; Province Logic&#10;+Added second tier buildings called manufactories that take in a raw resource as an input and output a more advanced resources&#10;+Started to add game logic to province, specifically handling construction offices and the construction queue&#10;+Added an enumerator for Time to make it easier to handle&#10;+Added Steel resource">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/worldsim_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Run.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/HistorySimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/HistorySimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ImageGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Province.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/Province.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/RegionsGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ProvinceGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ResourceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/ResourceGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/SaveAndLoad.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldGenRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/WorldTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Building.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Fishery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Manufactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/OreMine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/buildings/Quarry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Adamantine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Coal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/CoalDeposit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Copper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Gold.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Gold.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Iron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Iron.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Metal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Ore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/MetalDeposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/OreDeposit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceStockpile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceTags.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/ResourceTags.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Silver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Silver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Tin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Tin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/SimListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/SimListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/Simulatorclock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/time/Simulatorclock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/jammor9/worldsim/resources/Food.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +25,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -88,25 +63,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.TimeTest.TestTimePassage.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TimeTest.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.Main.executor": "Run",
+    "Application.Run.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TimeTest.TestTimePassage.executor": "Debug",
+    "JUnit.TimeTest.executor": "Run",
+    "Maven.worldsim [clean].executor": "Run",
+    "Maven.worldsim [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "true",
+    "Repository.Attach.Sources": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.jammor9.worldsim.simulationinterface" />
@@ -121,10 +102,23 @@
       <recent name="org.jammor9.worldsim" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Run">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.jammor9.worldsim.Main" />
       <module name="worldsim" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.jammor9.worldsim.Run" />
+      <module name="worldsim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.jammor9.worldsim.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -173,6 +167,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Run" />
         <item itemvalue="JUnit.TimeTest" />
         <item itemvalue="JUnit.TimeTest.TestTimePassage" />
       </list>
@@ -282,7 +277,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753117845037</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Manufactories &amp; Province Logic&#10;+Added second tier buildings called manufactories that take in a raw resource as an input and output a more advanced resources&#10;+Started to add game logic to province, specifically handling construction offices and the construction queue&#10;+Added an enumerator for Time to make it easier to handle&#10;+Added Steel resource">
+      <option name="closed" value="true" />
+      <created>1753387955714</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1753387955714</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -298,6 +301,7 @@
     <MESSAGE value="Time&#10;-Created a new simulator clock to simulate the passage of time within the simulation.&#10;-Created an observer interface for SimulatorClock so that objects can be informed when a certain amount of time has passed." />
     <MESSAGE value="Zoom&#10;-Implemented a zoomable ScrollPane&#10;-Credit to Daniel Hari on Stackoverflow for the code&#10;-Source: https://stackoverflow.com/questions/39827911/javafx-8-scaling-zooming-scrollpane-relative-to-mouse-position" />
     <MESSAGE value="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Buildings&#10;+Implemented new buildings objects to handle the production of resources&#10;+Created Manufactory subclass of Building, which once completed will be able to take in inputs depending on Tag or Resource and extract those from the stockpile before providing output&#10;+Added a new Resource Stockpile abstract class, will later transition most extending from ResourceDeposit to a specific deposit class" />
+    <MESSAGE value="Manufactories &amp; Province Logic&#10;+Added second tier buildings called manufactories that take in a raw resource as an input and output a more advanced resources&#10;+Started to add game logic to province, specifically handling construction offices and the construction queue&#10;+Added an enumerator for Time to make it easier to handle&#10;+Added Steel resource" />
+    <option name="LAST_COMMIT_MESSAGE" value="Manufactories &amp; Province Logic&#10;+Added second tier buildings called manufactories that take in a raw resource as an input and output a more advanced resources&#10;+Started to add game logic to province, specifically handling construction offices and the construction queue&#10;+Added an enumerator for Time to make it easier to handle&#10;+Added Steel resource" />
   </component>
 </project>

@@ -35,13 +35,13 @@ public class Province implements SimListener {
 
     public Province(int regionColor, Random gameRng) {
         this.regionColor = regionColor;
-        this.income = BASE_INCOME;
+//        this.income = BASE_INCOME;
         this.gameRng = gameRng;
-        this.capital = createCapital();
-        provinceTowns.add(capital);
-        activeBuildings.add(capital.building);
-        constructionOffices.put(new ConstructionOffice(), null);
-        this.expenses = 0;
+//        this.capital = createCapital();
+//        provinceTowns.add(capital);
+//        activeBuildings.add(capital.building);
+//        constructionOffices.put(new ConstructionOffice(), null);
+//        this.expenses = 0;
     }
 
     public void addTile(WorldTile t) {
